@@ -3169,24 +3169,6 @@ begin
           ExtensionOrFeatureEnum.Dir:=ChildChildChildTag.GetParameter('dir','');
           ExtensionOrFeatureEnum.Extends:=ChildChildChildTag.GetParameter('extends','');
           ExtensionOrFeatureEnum.Alias:=ChildChildChildTag.GetParameter('alias','');
-          if (pos('XR_EXT_EXTENSION_',ExtensionOrFeatureEnum.Name)>0) and
-             (pos('_NAME',ExtensionOrFeatureEnum.Name)=0) and
-             (pos('_SPEC_VERSION',ExtensionOrFeatureEnum.Name)=0) then begin
-           // Workarounds for vk.xml typo issues
-           if pos('"',ExtensionOrFeatureEnum.Value)>0 then begin
-            ExtensionOrFeatureEnum.Name:=ExtensionOrFeatureEnum.Name+'_NAME';
-           end else begin
-            ExtensionOrFeatureEnum.Name:=ExtensionOrFeatureEnum.Name+'_SPEC_VERSION';
-           end;
-          end;
-{         if length(ExtensionOrFeatureEnum.Alias)>0 then begin
-           // Workarounds for vk.xml typo issues
-           if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
-           end else if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
-           end;
-          end;}
           ExtensionOrFeatureEnums.AddObject(ExtensionOrFeatureEnum.Name,ExtensionOrFeatureEnum);
          end else if ChildChildChildTag.Name='type' then begin
           ExtensionOrFeatureType:=TExtensionOrFeatureType.Create;
@@ -3256,14 +3238,7 @@ begin
           ExtensionOrFeatureEnum.Dir:=ChildChildChildTag.GetParameter('dir','');
           ExtensionOrFeatureEnum.Extends:=ChildChildChildTag.GetParameter('extends','');
           ExtensionOrFeatureEnum.Alias:=ChildChildChildTag.GetParameter('alias','');
-          if length(ExtensionOrFeatureEnum.Alias)>0 then begin
-           // Workarounds for vk.xml typo issues
-           if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
-           end else if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
-           end;
-          end;
+
           ExtensionOrFeatureEnums.AddObject(ExtensionOrFeatureEnum.Name,ExtensionOrFeatureEnum);
          end else if ChildChildChildTag.Name='type' then begin
           ExtensionOrFeatureType:=TExtensionOrFeatureType.Create;
@@ -3936,7 +3911,7 @@ begin
           (length(TypeDefinition^.Members[j].Comment)=0) and
           (length(TypeDefinition^.Members[j].Values)>0) and
           (copy(TypeDefinition^.Members[j].Values,1,length('XR_STRUCTURE_TYPE_'))='XR_STRUCTURE_TYPE_') then begin
-        TypeDefinition^.Members[j].Comment:='Must be '+TypeDefinition^.Members[j].Values; // Restore/Recreate old <= 1.0.22 sType member comments
+        TypeDefinition^.Members[j].Comment:='Must be '+TypeDefinition^.Members[j].Values;
        end;
        ParameterName:='a'+UpCase(TypeDefinition^.Members[j].Name[1])+copy(TypeDefinition^.Members[j].Name,2,length(TypeDefinition^.Members[j].Name)-1);
        ParameterLine:=ParameterName+':';
@@ -3956,7 +3931,7 @@ begin
         end;
        end else begin
         TypeDefinitionTypes.Add('       '+TypeDefinition^.Members[j].Name+':'+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)+';'+MemberComment(TypeDefinition^.Members[j].Comment));
-        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'next') then begin
          ParameterLine:=ParameterLine+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr);
         end;
        end;
@@ -3980,7 +3955,7 @@ begin
          RecordConstructorCodeBlockStringList.Add(' end;');
         end;
        end else begin
-        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'next') then begin
          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':='+ParameterName+';');
         end else if TypeDefinition^.Members[j].Type_='XrStructureType' then begin
          ParameterName:=TypeDefinition^.Members[j].Comment;
@@ -3997,16 +3972,16 @@ begin
          end else if (length(TypeDefinition^.Members[j].Values)>0) and
                      (copy(TypeDefinition^.Members[j].Values,1,length('XR_STRUCTURE_TYPE_'))='XR_STRUCTURE_TYPE_') then begin
           RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':='+TypeDefinition^.Members[j].Values+';');
-         end else if TypeDefinition^.Members[j].Name='sType' then begin
+         end else if TypeDefinition^.Members[j].Name='type_' then begin
           RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':=TXrStructureType(TXrInt32(0));');
          end else begin
           Assert(false);
          end;
-        end else if TypeDefinition^.Members[j].Name='pNext' then begin
+        end else if TypeDefinition^.Members[j].Name='next' then begin
          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':=nil;');
         end;
        end;
-       if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+       if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'next') then begin
         if RecordConstructorStringList.Count=0 then begin
          CodeParameterLine:='constructor T'+TypeDefinition^.Name+'.Create(const '+ParameterLine;
          ParameterLine:='       constructor Create(const '+ParameterLine;
@@ -5124,7 +5099,7 @@ begin
    OutputPAS.Add('');
    OutputPAS.Add('var LibOpenXR:pointer=nil;');
    OutputPAS.Add('');
-   OutputPAS.Add('    vk:TOpenXR=nil;');
+   OutputPAS.Add('    xr:TOpenXR=nil;');
    OutputPAS.Add('');
    OutputPAS.AddStrings(CommandVariables);
    OutputPAS.Add('');
@@ -5133,16 +5108,16 @@ begin
    OutputPAS.Add('function XR_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('function XR_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
-   OutputPAS.Add('function vkFreeLibrary(LibraryHandle:pointer):boolean; {$ifdef CAN_INLINE}inline;{$endif}');
-   OutputPAS.Add('function vkGetProcAddress(LibraryHandle:pointer;const ProcName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrFreeLibrary(LibraryHandle:pointer):boolean; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrGetProcAddress(LibraryHandle:pointer;const ProcName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkVoidFunctionToPointer(const VoidFunction:TPFN_vkVoidFunction):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrVoidFunctionToPointer(const VoidFunction:TPFN_xrVoidFunction):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;');
    OutputPAS.Add('function LoadOpenXRGlobalCommands:boolean;');
-   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
-   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TxrGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('');
    OutputPAS.Add('implementation');
    OutputPAS.Add('');
@@ -5166,7 +5141,7 @@ begin
    OutputPAS.Add(' result:=(Version shr 0) and $fff;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add('{$ifdef Windows}');
    OutputPAS.Add(' result:={%H-}pointer(LoadLibrary(PChar(LibraryName)));');
@@ -5179,7 +5154,7 @@ begin
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkFreeLibrary(LibraryHandle:pointer):boolean; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrFreeLibrary(LibraryHandle:pointer):boolean; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=assigned(LibraryHandle);');
    OutputPAS.Add(' if result then begin');
@@ -5195,7 +5170,7 @@ begin
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkGetProcAddress(LibraryHandle:pointer;const ProcName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrGetProcAddress(LibraryHandle:pointer;const ProcName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add('{$ifdef Windows}');
    OutputPAS.Add(' result:=GetProcAddress({%H-}HMODULE(LibraryHandle),PChar(ProcName));');
@@ -5208,37 +5183,37 @@ begin
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function vkVoidFunctionToPointer(const VoidFunction:TPFN_vkVoidFunction):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function xrVoidFunctionToPointer(const VoidFunction:TPFN_xrVoidFunction):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=addr(VoidFunction);');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
    OutputPAS.Add('function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;');
    OutputPAS.Add('begin');
-   OutputPAS.Add(' LibOpenXR:=vkLoadLibrary(LibraryName);');
+   OutputPAS.Add(' LibOpenXR:=xrLoadLibrary(LibraryName);');
    OutputPAS.Add(' result:=assigned(LibOpenXR);');
    OutputPAS.Add(' if result then begin');
-   OutputPAS.Add('  vkGetInstanceProcAddr:=vkGetProcAddress(LibOpenXR,''vkGetInstanceProcAddr'');');
-   OutputPAS.Add('  @vk.fCommands.GetInstanceProcAddr:=addr(vkGetInstanceProcAddr);');
-   OutputPAS.Add('  result:=assigned(vkGetInstanceProcAddr);');
+   OutputPAS.Add('  xrGetInstanceProcAddr:=xrGetProcAddress(LibOpenXR,''xrGetInstanceProcAddr'');');
+   OutputPAS.Add('  @xr.fCommands.GetInstanceProcAddr:=addr(xrGetInstanceProcAddr);');
+   OutputPAS.Add('  result:=assigned(xrGetInstanceProcAddr);');
    OutputPAS.Add('  if result then begin');
-   OutputPAS.Add('   vkEnumerateInstanceExtensionProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkEnumerateInstanceExtensionProperties'')));');
-   OutputPAS.Add('   @vk.fCommands.EnumerateInstanceExtensionProperties:=addr(vkEnumerateInstanceExtensionProperties);');
-   OutputPAS.Add('   vkEnumerateInstanceLayerProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkEnumerateInstanceLayerProperties'')));');
-   OutputPAS.Add('   @vk.fCommands.EnumerateInstanceLayerProperties:=addr(vkEnumerateInstanceLayerProperties);');
-   OutputPAS.Add('   vkCreateInstance:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkCreateInstance'')));');
-   OutputPAS.Add('   @vk.fCommands.CreateInstance:=addr(vkCreateInstance);');
-   OutputPAS.Add('   result:=assigned(vkEnumerateInstanceExtensionProperties) and');
-   OutputPAS.Add('           assigned(vkEnumerateInstanceLayerProperties) and ');
-   OutputPAS.Add('           assigned(vkCreateInstance);');
+   OutputPAS.Add('   xrEnumerateInstanceExtensionProperties:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''xrEnumerateInstanceExtensionProperties'')));');
+   OutputPAS.Add('   @xr.fCommands.EnumerateInstanceExtensionProperties:=addr(xrEnumerateInstanceExtensionProperties);');
+   OutputPAS.Add('   xrEnumerateInstanceLayerProperties:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''xrEnumerateInstanceLayerProperties'')));');
+   OutputPAS.Add('   @xr.fCommands.EnumerateInstanceLayerProperties:=addr(xrEnumerateInstanceLayerProperties);');
+   OutputPAS.Add('   xrCreateInstance:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''xrCreateInstance'')));');
+   OutputPAS.Add('   @xr.fCommands.CreateInstance:=addr(xrCreateInstance);');
+   OutputPAS.Add('   result:=assigned(xrEnumerateInstanceExtensionProperties) and');
+   OutputPAS.Add('           assigned(xrEnumerateInstanceLayerProperties) and ');
+   OutputPAS.Add('           assigned(xrCreateInstance);');
    OutputPAS.Add('  end;');
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
    OutputPAS.Add('function LoadOpenXRGlobalCommands:boolean;');
    OutputPAS.Add('begin');
-// OutputPAS.Add(' FillChar(vk.fCommands,SizeOf(TOpenXRCommands),#0);');
-   OutputPAS.Add(' result:=assigned(vkGetInstanceProcAddr);');
+// OutputPAS.Add(' FillChar(xr.fCommands,SizeOf(TOpenXRCommands),#0);');
+   OutputPAS.Add(' result:=assigned(xrGetInstanceProcAddr);');
    OutputPAS.Add(' if result then begin');
    for i:=0 to AllCommands.Count-1 do begin
     s:=AllCommands.Strings[i];
@@ -5251,19 +5226,19 @@ begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
     OutputPAS.Add('  if not assigned('+s+') then begin');
-    OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetProcAddress(LibOpenXR,'''+s+'''));');
-//  OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar('''+s+''')));');
-    OutputPAS.Add('   @vk.fCommands.'+copy(s,3,length(s)-2)+':=addr('+s+');');
+    OutputPAS.Add('   @'+s+':=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'''+s+'''));');
+//  OutputPAS.Add('   @'+s+':=xrVoidFunctionToPointer(xrGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar('''+s+''')));');
+    OutputPAS.Add('   @xr.fCommands.'+copy(s,3,length(s)-2)+':=addr('+s+');');
     OutputPAS.Add('  end;');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
    end;
-   OutputPAS.Add('  result:=assigned(vkCreateInstance);');
+   OutputPAS.Add('  result:=assigned(xrCreateInstance);');
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TxrGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('begin');
    OutputPAS.Add(' FillChar(InstanceCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add(' result:=assigned(GetInstanceProcAddr);');
@@ -5278,30 +5253,30 @@ begin
     if length(s2)>0 then begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
-    OutputPAS.Add('  @InstanceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(Instance,PXrChar('''+s+''')));');
+    OutputPAS.Add('  @InstanceCommands.'+copy(s,3,length(s)-2)+':=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('''+s+''')));');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
    end;
    OutputPAS.Add('  if not assigned(InstanceCommands.EnumerateInstanceExtensionProperties) then begin');
-   OutputPAS.Add('   InstanceCommands.EnumerateInstanceExtensionProperties:=addr(vkEnumerateInstanceExtensionProperties);');
+   OutputPAS.Add('   InstanceCommands.EnumerateInstanceExtensionProperties:=addr(xrEnumerateInstanceExtensionProperties);');
    OutputPAS.Add('  end;');
    OutputPAS.Add('  if not assigned(InstanceCommands.EnumerateInstanceLayerProperties) then begin');
-   OutputPAS.Add('   InstanceCommands.EnumerateInstanceLayerProperties:=addr(vkEnumerateInstanceLayerProperties);');
+   OutputPAS.Add('   InstanceCommands.EnumerateInstanceLayerProperties:=addr(xrEnumerateInstanceLayerProperties);');
    OutputPAS.Add('  end;');
    OutputPAS.Add('  if not assigned(InstanceCommands.CreateInstance) then begin');
-   OutputPAS.Add('   InstanceCommands.CreateInstance:=addr(vkCreateInstance);');
+   OutputPAS.Add('   InstanceCommands.CreateInstance:=addr(xrCreateInstance);');
    OutputPAS.Add('  end;');
    OutputPAS.Add('  result:=assigned(InstanceCommands.DestroyInstance);');
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('begin');
    OutputPAS.Add(' FillChar(DeviceCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add(' result:=assigned(GetDeviceProcAddr);');
    OutputPAS.Add(' if result then begin');
-   OutputPAS.Add('  // Device commands of any OpenXR command whose first parameter is one of: vkDevice, XrQueue, XrCommandBuffer');
+   OutputPAS.Add('  // Device commands of any OpenXR command whose first parameter is one of: xrDevice, XrQueue, XrCommandBuffer');
    for i:=0 to AllDeviceCommands.Count-1 do begin
     s:=AllDeviceCommands.Strings[i];
     j:=pos('=',s);
@@ -5312,7 +5287,7 @@ begin
     if length(s2)>0 then begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
-    OutputPAS.Add('  @DeviceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetDeviceProcAddr(Device,PXrChar('''+s+''')));');
+    OutputPAS.Add('  @DeviceCommands.'+copy(s,3,length(s)-2)+':=xrVoidFunctionToPointer(xrGetDeviceProcAddr(Device,PXrChar('''+s+''')));');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
@@ -5346,11 +5321,11 @@ begin
    OutputPAS.Add('');
    OutputPAS.AddStrings(AllCommandClassImplementations);
    OutputPAS.Add('initialization');
-   OutputPAS.Add(' vk:=TOpenXR.Create;');
+   OutputPAS.Add(' xr:=TOpenXR.Create;');
    OutputPAS.Add('finalization');
-   OutputPAS.Add(' vk.Free;');
+   OutputPAS.Add(' xr.Free;');
    OutputPAS.Add(' if assigned(LibOpenXR) then begin');
-   OutputPAS.Add('  vkFreeLibrary(LibOpenXR);');
+   OutputPAS.Add('  xrFreeLibrary(LibOpenXR);');
    OutputPAS.Add(' end;');
    OutputPAS.Add('end.');
    OutputPAS.SaveToFile('OpenXR.pas');
