@@ -131,8 +131,8 @@ program xrxml2pas;
 
 uses SysUtils,Classes,Contnrs;
 
-// On Windows, Vulkan commands use the stdcall convention
-// On Android/ARMv7a, Vulkan functions use the armeabi-v7a-hard calling convention, even if the application's native code is compiled with the armeabi-v7a calling convention.
+// On Windows, OpenXR commands use the stdcall convention
+// On Android/ARMv7a, OpenXR functions use the armeabi-v7a-hard calling convention, even if the application's native code is compiled with the armeabi-v7a calling convention.
 // On other platforms, use the default calling convention
 const CallingConventions='{$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}';
 
@@ -2876,148 +2876,148 @@ begin
  case Ptr of
   1:begin
    if Type_='void' then begin
-    result:='PVkVoid';
+    result:='PXrVoid';
    end else if Type_='char' then begin
-    result:='PVkChar';
+    result:='PXrChar';
    end else if Type_='float' then begin
-    result:='PVkFloat';
+    result:='PXrFloat';
    end else if Type_='double' then begin
-    result:='PVkDouble';
+    result:='PXrDouble';
    end else if Type_='int8_t' then begin
-    result:='PVkInt8';
+    result:='PXrInt8';
    end else if Type_='uint8_t' then begin
-    result:='PVkUInt8';
+    result:='PXrUInt8';
    end else if Type_='int16_t' then begin
-    result:='PVkInt16';
+    result:='PXrInt16';
    end else if Type_='uint16_t' then begin
-    result:='PVkUInt16';
+    result:='PXrUInt16';
    end else if (Type_='int32_t') or (Type_='int') then begin
-    result:='PVkInt32';
+    result:='PXrInt32';
    end else if (Type_='uint32_t') or (Type_='DWORD') then begin
-    result:='PVkUInt32';
+    result:='PXrUInt32';
    end else if Type_='int64_t' then begin
-    result:='PVkInt64';
+    result:='PXrInt64';
    end else if Type_='uint64_t' then begin
-    result:='PVkUInt64';
+    result:='PXrUInt64';
    end else if Type_='size_t' then begin
-    result:='PVkSize';
-   end else if Type_='VK_DEFINE_HANDLE' then begin
-    result:='PVkDispatchableHandle';
-   end else if Type_='VK_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
-    result:='PVkNonDispatchableHandle';
+    result:='PXrSize';
+   end else if Type_='XR_DEFINE_HANDLE' then begin
+    result:='PXrDispatchableHandle';
+   end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
+    result:='PXrNonDispatchableHandle';
    end else if Type_='HINSTANCE' then begin
-    result:='PVkHINSTANCE';
+    result:='PXrHINSTANCE';
    end else if Type_='HWND' then begin
-    result:='PVkHWND';
+    result:='PXrHWND';
    end else if Type_='HMONITOR' then begin
-    result:='PVkHMONITOR';
+    result:='PXrHMONITOR';
    end else if Type_='Display' then begin
-    result:='PVkXLIBDisplay';
+    result:='PXrXLIBDisplay';
    end else if Type_='VisualID' then begin
-    result:='PVkXLIBVisualID';
+    result:='PXrXLIBVisualID';
    end else if Type_='Window' then begin
-    result:='PVkXLIBWindow';
+    result:='PXrXLIBWindow';
    end else if Type_='xcb_connection_t' then begin
-    result:='PVkXCBConnection';
+    result:='PXrXCBConnection';
    end else if Type_='xcb_visualid_t' then begin
-    result:='PVkXCBVisualID';
+    result:='PXrXCBVisualID';
    end else if Type_='xcb_window_t' then begin
-    result:='PVkXCBWindow';
+    result:='PXrXCBWindow';
    end else if Type_='wl_display' then begin
-    result:='PVkWaylandDisplay';
+    result:='PXrWaylandDisplay';
    end else if Type_='wl_surface' then begin
-    result:='PVkWaylandSurface';
+    result:='PXrWaylandSurface';
    end else if Type_='ANativeWindow' then begin
-    result:='PVkAndroidANativeWindow';
+    result:='PXrAndroidANativeWindow';
    end else if Type_='AHardwareBuffer' then begin
-    result:='PVkAndroidAHardwareBuffer';
+    result:='PXrAndroidAHardwareBuffer';
    end else if Type_='SECURITY_ATTRIBUTES' then begin
     result:='PSecurityAttributes';
    end else if Type_='zx_handle_t' then begin
-    result:='PVkFuchsiaZXHandle';
+    result:='PXrFuchsiaZXHandle';
    end else if Type_='GgpStreamDescriptor' then begin
-    result:='PVkGgpStreamDescriptor';
+    result:='PXrGgpStreamDescriptor';
    end else if Type_='GgpFrameToken' then begin
-    result:='PVkGgpFrameToken';
+    result:='PXrGgpFrameToken';
    end else if Type_='CAMetalLayer' then begin
-    result:='PVkCAMetalLayer';
+    result:='PXrCAMetalLayer';
    end else if Type_='IDirectFB' then begin
-    result:='PVkDirectFBIDirectFB';
+    result:='PXrDirectFBIDirectFB';
    end else if Type_='IDirectFBSurface' then begin
-    result:='PVkDirectFBIDirectFBSurface';
+    result:='PXrDirectFBIDirectFBSurface';
    end else begin
     result:='P'+Type_;
    end;
   end;
   2:begin
    if Type_='void' then begin
-    result:='PPVkVoid';
+    result:='PPXrVoid';
    end else if Type_='char' then begin
-    result:='PPVkChar';
+    result:='PPXrChar';
    end else if Type_='float' then begin
-    result:='PPVkFloat';
+    result:='PPXrFloat';
    end else if Type_='double' then begin
-    result:='PPVkDouble';
+    result:='PPXrDouble';
    end else if Type_='int8_t' then begin
-    result:='PPVkInt8';
+    result:='PPXrInt8';
    end else if Type_='uint8_t' then begin
-    result:='PPVkUInt8';
+    result:='PPXrUInt8';
    end else if Type_='int16_t' then begin
-    result:='PPVkInt16';
+    result:='PPXrInt16';
    end else if Type_='uint16_t' then begin
-    result:='PPVkUInt16';
+    result:='PPXrUInt16';
    end else if (Type_='int32_t') or (Type_='int') then begin
-    result:='PPVkInt32';
+    result:='PPXrInt32';
    end else if (Type_='uint32_t') or (Type_='DWORD') then begin
-    result:='PPVkUInt32';
+    result:='PPXrUInt32';
    end else if Type_='int64_t' then begin
-    result:='PPVkInt64';
+    result:='PPXrInt64';
    end else if Type_='uint64_t' then begin
-    result:='PPVkUInt64';
+    result:='PPXrUInt64';
    end else if Type_='size_t' then begin
-    result:='PPVkSize';
-   end else if Type_='VK_DEFINE_HANDLE' then begin
-    result:='PPVkDispatchableHandle';
-   end else if Type_='VK_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
-    result:='PPVkNonDispatchableHandle';
+    result:='PPXrSize';
+   end else if Type_='XR_DEFINE_HANDLE' then begin
+    result:='PPXrDispatchableHandle';
+   end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
+    result:='PPXrNonDispatchableHandle';
    end else if Type_='HINSTANCE' then begin
-    result:='PPVkHINSTANCE';
+    result:='PPXrHINSTANCE';
    end else if Type_='HWND' then begin
-    result:='PPVkHWND';
+    result:='PPXrHWND';
    end else if Type_='HMONITOR' then begin
-    result:='PPVkHMONITOR';
+    result:='PPXrHMONITOR';
    end else if Type_='Display' then begin
-    result:='PPVkXLIBDisplay';
+    result:='PPXrXLIBDisplay';
    end else if Type_='VisualID' then begin
-    result:='PPVkXLIBVisualID';
+    result:='PPXrXLIBVisualID';
    end else if Type_='Window' then begin
-    result:='PPVkXLIBWindow';
+    result:='PPXrXLIBWindow';
    end else if Type_='xcb_connection_t' then begin
-    result:='PPVkXCBConnection';
+    result:='PPXrXCBConnection';
    end else if Type_='xcb_visualid_t' then begin
-    result:='PPVkXCBVisualID';
+    result:='PPXrXCBVisualID';
    end else if Type_='xcb_window_t' then begin
-    result:='PPVkXCBWindow';
+    result:='PPXrXCBWindow';
    end else if Type_='wl_display' then begin
-    result:='PPVkWaylandDisplay';
+    result:='PPXrWaylandDisplay';
    end else if Type_='wl_surface' then begin
-    result:='PPVkWaylandSurface';
+    result:='PPXrWaylandSurface';
    end else if Type_='ANativeWindow' then begin
-    result:='PPVkAndroidANativeWindow';
+    result:='PPXrAndroidANativeWindow';
    end else if Type_='AHardwareBuffer' then begin
-    result:='PPVkAndroidAHardwareBuffer';
+    result:='PPXrAndroidAHardwareBuffer';
    end else if Type_='zx_handle_t' then begin
-    result:='PPVkFuchsiaZXHandle';
+    result:='PPXrFuchsiaZXHandle';
    end else if Type_='GgpStreamDescriptor' then begin
-    result:='PPVkGgpStreamDescriptor';
+    result:='PPXrGgpStreamDescriptor';
    end else if Type_='GgpFrameToken' then begin
-    result:='PPVkGgpFrameToken';
+    result:='PPXrGgpFrameToken';
    end else if Type_='CAMetalLayer' then begin
-    result:='PPVkCAMetalLayer';
+    result:='PPXrCAMetalLayer';
    end else if Type_='IDirectFB' then begin
-    result:='PPVkDirectFBIDirectFB';
+    result:='PPXrDirectFBIDirectFB';
    end else if Type_='IDirectFBSurface' then begin
-    result:='PPVkDirectFBIDirectFBSurface';
+    result:='PPXrDirectFBIDirectFBSurface';
    end else begin
     result:='PP'+Type_;
    end;
@@ -3025,79 +3025,79 @@ begin
   else begin
    if Type_='void' then begin
     Assert(false,'TODO: Unexpected void data type');
-    result:='TVkVoid';
+    result:='TXrVoid';
    end else if Type_='char' then begin
-    result:='TVkChar';
+    result:='TXrChar';
    end else if Type_='float' then begin
-    result:='TVkFloat';
+    result:='TXrFloat';
    end else if Type_='double' then begin
-    result:='TVkDouble';
+    result:='TXrDouble';
    end else if Type_='int8_t' then begin
-    result:='TVkInt8';
+    result:='TXrInt8';
    end else if Type_='uint8_t' then begin
-    result:='TVkUInt8';
+    result:='TXrUInt8';
    end else if Type_='int16_t' then begin
-    result:='TVkInt16';
+    result:='TXrInt16';
    end else if Type_='uint16_t' then begin
-    result:='TVkUInt16';
+    result:='TXrUInt16';
    end else if (Type_='int32_t') or (Type_='int') then begin
-    result:='TVkInt32';
+    result:='TXrInt32';
    end else if (Type_='uint32_t') or (Type_='DWORD') then begin
-    result:='TVkUInt32';
+    result:='TXrUInt32';
    end else if Type_='int64_t' then begin
-    result:='TVkInt64';
+    result:='TXrInt64';
    end else if Type_='uint64_t' then begin
-    result:='TVkUInt64';
+    result:='TXrUInt64';
    end else if Type_='size_t' then begin
-    result:='TVkSize';
-   end else if Type_='VK_DEFINE_HANDLE' then begin
-    result:='TVkDispatchableHandle';
-   end else if Type_='VK_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
-    result:='TVkNonDispatchableHandle';
+    result:='TXrSize';
+   end else if Type_='XR_DEFINE_HANDLE' then begin
+    result:='TXrDispatchableHandle';
+   end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
+    result:='TXrNonDispatchableHandle';
    end else if Type_='HINSTANCE' then begin
-    result:='TVkHINSTANCE';
+    result:='TXrHINSTANCE';
    end else if Type_='HWND' then begin
-    result:='TVkHWND';
+    result:='TXrHWND';
    end else if Type_='HMONITOR' then begin
-    result:='TVkHMONITOR';
+    result:='TXrHMONITOR';
    end else if Type_='Display' then begin
-    result:='TVkXLIBDisplay';
+    result:='TXrXLIBDisplay';
    end else if Type_='VisualID' then begin
-    result:='TVkXLIBVisualID';
+    result:='TXrXLIBVisualID';
    end else if Type_='Window' then begin
-    result:='TVkXLIBWindow';
+    result:='TXrXLIBWindow';
    end else if Type_='xcb_connection_t' then begin
-    result:='TVkXCBConnection';
+    result:='TXrXCBConnection';
    end else if Type_='xcb_visualid_t' then begin
-    result:='TVkXCBVisualID';
+    result:='TXrXCBVisualID';
    end else if Type_='xcb_window_t' then begin
-    result:='TVkXCBWindow';
+    result:='TXrXCBWindow';
    end else if Type_='wl_display' then begin
-    result:='TVkWaylandDisplay';
+    result:='TXrWaylandDisplay';
    end else if Type_='wl_surface' then begin
-    result:='TVkWaylandSurface';
+    result:='TXrWaylandSurface';
    end else if Type_='ANativeWindow' then begin
-    result:='TVkAndroidANativeWindow';
+    result:='TXrAndroidANativeWindow';
    end else if Type_='AHardwareBuffer' then begin
-    result:='TVkAndroidAHardwareBuffer';
+    result:='TXrAndroidAHardwareBuffer';
    end else if Type_='LPCWSTR' then begin
     result:='PWideChar';
    end else if Type_='zx_handle_t' then begin
-    result:='TVkFuchsiaZXHandle';
+    result:='TXrFuchsiaZXHandle';
    end else if Type_='GgpStreamDescriptor' then begin
-    result:='TVkGgpStreamDescriptor';
+    result:='TXrGgpStreamDescriptor';
    end else if Type_='GgpFrameToken' then begin
-    result:='TVkGgpFrameToken';
+    result:='TXrGgpFrameToken';
    end else if Type_='CAMetalLayer' then begin
-    result:='TVkCAMetalLayer';
+    result:='TXrCAMetalLayer';
    end else if Type_='IDirectFB' then begin
-    result:='TVkDirectFBIDirectFB';
+    result:='TXrDirectFBIDirectFB';
    end else if Type_='IDirectFBSurface' then begin
-    result:='TVkDirectFBIDirectFBSurface';
+    result:='TXrDirectFBIDirectFBSurface';
    end else if length(Type_)>0 then begin
     result:='T'+Type_;
    end else begin
-    result:='TVkNonDefinedType';
+    result:='TXrNonDefinedType';
    end;
   end;
  end;
@@ -3169,7 +3169,7 @@ begin
           ExtensionOrFeatureEnum.Dir:=ChildChildChildTag.GetParameter('dir','');
           ExtensionOrFeatureEnum.Extends:=ChildChildChildTag.GetParameter('extends','');
           ExtensionOrFeatureEnum.Alias:=ChildChildChildTag.GetParameter('alias','');
-          if (pos('VK_EXT_EXTENSION_',ExtensionOrFeatureEnum.Name)>0) and
+          if (pos('XR_EXT_EXTENSION_',ExtensionOrFeatureEnum.Name)>0) and
              (pos('_NAME',ExtensionOrFeatureEnum.Name)=0) and
              (pos('_SPEC_VERSION',ExtensionOrFeatureEnum.Name)=0) then begin
            // Workarounds for vk.xml typo issues
@@ -3181,10 +3181,10 @@ begin
           end;
 {         if length(ExtensionOrFeatureEnum.Alias)>0 then begin
            // Workarounds for vk.xml typo issues
-           if ExtensionOrFeatureEnum.Alias='VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
-           end else if ExtensionOrFeatureEnum.Alias='VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
+           if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
+            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
+           end else if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
+            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
            end;
           end;}
           ExtensionOrFeatureEnums.AddObject(ExtensionOrFeatureEnum.Name,ExtensionOrFeatureEnum);
@@ -3258,10 +3258,10 @@ begin
           ExtensionOrFeatureEnum.Alias:=ChildChildChildTag.GetParameter('alias','');
           if length(ExtensionOrFeatureEnum.Alias)>0 then begin
            // Workarounds for vk.xml typo issues
-           if ExtensionOrFeatureEnum.Alias='VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
-           end else if ExtensionOrFeatureEnum.Alias='VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
-            ExtensionOrFeatureEnum.Alias:='VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
+           if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL' then begin
+            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL_KHX';
+           end else if ExtensionOrFeatureEnum.Alias='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL' then begin
+            ExtensionOrFeatureEnum.Alias:='XR_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL_KHX';
            end;
           end;
           ExtensionOrFeatureEnums.AddObject(ExtensionOrFeatureEnum.Name,ExtensionOrFeatureEnum);
@@ -3319,7 +3319,7 @@ begin
      end; 
     end else if ExtensionOrFeatureEnum.BitPos>=0 then begin
      if ExtensionOrFeatureEnum.BitPos=31 then begin
-      ENumConstants.Add('      '+ExtensionOrFeatureEnum.Name+'=TVkInt32('+ExtensionOrFeatureEnum.Dir+'$'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8)+');');
+      ENumConstants.Add('      '+ExtensionOrFeatureEnum.Name+'=TXrInt32('+ExtensionOrFeatureEnum.Dir+'$'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8)+');');
      end else begin
       ENumConstants.Add('      '+ExtensionOrFeatureEnum.Name+'='+ExtensionOrFeatureEnum.Dir+'$'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8)+';');
      end;
@@ -3603,7 +3603,7 @@ begin
        if Category='include' then begin
        end else if Category='define' then begin
         Name:=ParseText(ChildTag.FindTag('name'),['']);
-        if (pos('VK_API_VERSION',Name)=1) or (pos('VK_HEADER_VERSION_COMPLETE',Name)=1) then begin
+        if (pos('XR_API_VERSION',Name)=1) or (pos('XR_HEADER_VERSION_COMPLETE',Name)=1) then begin
          VersionMajor:=1;
          VersionMinor:=0;
          VersionPatch:=0;
@@ -3631,13 +3631,13 @@ begin
            end;
           end;
          end;
-         if Name='VK_HEADER_VERSION_COMPLETE' then begin
-          VersionConstants.Add('      '+Name+'=('+IntToStr(VersionMajor)+' shl 22) or ('+IntToStr(VersionMinor)+' shl 12) or (VK_HEADER_VERSION shl 0);');
+         if Name='XR_HEADER_VERSION_COMPLETE' then begin
+          VersionConstants.Add('      '+Name+'=('+IntToStr(VersionMajor)+' shl 22) or ('+IntToStr(VersionMinor)+' shl 12) or (XR_HEADER_VERSION shl 0);');
          end else begin
           VersionConstants.Add('      '+Name+'=('+IntToStr(VersionMajor)+' shl 22) or ('+IntToStr(VersionMinor)+' shl 12) or ('+IntToStr(VersionPatch)+' shl 0);');
          end;
          VersionConstants.Add('');
-        end else if pos('VK_HEADER_VERSION',Name)=1 then begin
+        end else if pos('XR_HEADER_VERSION',Name)=1 then begin
          Text:=ParseText(ChildTag,['']);
          j:=pos(Name,Text);
          if j>0 then begin
@@ -3697,7 +3697,7 @@ begin
             TypeDefinition^.Type_:='void';
            end else begin
             Text:=trim(StringReplace(Text,'typedef','',[rfReplaceAll]));
-            Text:=trim(StringReplace(Text,'VKAPI_PTR','',[rfReplaceAll]));
+            Text:=trim(StringReplace(Text,'XRAPI_PTR','',[rfReplaceAll]));
             Text:=trim(StringReplace(Text,'(','',[rfReplaceAll]));
             Text:=trim(StringReplace(Text,'*','',[rfReplaceAll]));
             TypeDefinition^.Type_:=Text;
@@ -3767,12 +3767,12 @@ begin
         TypeDefinition^.Comment:=ChildTag.GetParameter('comment');
         TypeDefinition^.Members:=nil;
         TypeDefinition^.Define:='';
-        if (pos('IOS',UpperCase(Name))>0) and (pos('MVK',Name)>0) then begin
-         TypeDefinition^.Define:='MoltenVK_IOS';
-        end else if (pos('MACOS',UpperCase(Name))>0) and (pos('MVK',Name)>0) then begin
-         TypeDefinition^.Define:='MoltenVK_MacOS';
-        end else if (pos('MVK',Name)>0) or (pos('MOLTENVK',UpperCase(Name))>0) then begin
-         TypeDefinition^.Define:='MoltenVK';
+        if (pos('IOS',UpperCase(Name))>0) and (pos('MXR',Name)>0) then begin
+         TypeDefinition^.Define:='MoltenXR_IOS';
+        end else if (pos('MACOS',UpperCase(Name))>0) and (pos('MXR',Name)>0) then begin
+         TypeDefinition^.Define:='MoltenXR_MacOS';
+        end else if (pos('MXR',Name)>0) or (pos('MOLTENXR',UpperCase(Name))>0) then begin
+         TypeDefinition^.Define:='MoltenXR';
         end else if (pos('ANDROID',Name)>0) or (pos('Android',Name)>0) then begin
          TypeDefinition^.Define:='Android';
         end;
@@ -3932,37 +3932,37 @@ begin
      try
       for j:=0 to TypeDefinition^.CountMembers-1 do begin
        Assert(length(TypeDefinition^.Members[j].Name)>0);
-       if (TypeDefinition^.Members[j].Type_='VkStructureType') and
+       if (TypeDefinition^.Members[j].Type_='XrStructureType') and
           (length(TypeDefinition^.Members[j].Comment)=0) and
           (length(TypeDefinition^.Members[j].Values)>0) and
-          (copy(TypeDefinition^.Members[j].Values,1,length('VK_STRUCTURE_TYPE_'))='VK_STRUCTURE_TYPE_') then begin
+          (copy(TypeDefinition^.Members[j].Values,1,length('XR_STRUCTURE_TYPE_'))='XR_STRUCTURE_TYPE_') then begin
         TypeDefinition^.Members[j].Comment:='Must be '+TypeDefinition^.Members[j].Values; // Restore/Recreate old <= 1.0.22 sType member comments
        end;
        ParameterName:='a'+UpCase(TypeDefinition^.Members[j].Name[1])+copy(TypeDefinition^.Members[j].Name,2,length(TypeDefinition^.Members[j].Name)-1);
        ParameterLine:=ParameterName+':';
        if length(TypeDefinition^.Members[j].ArraySizeStr)>0 then begin
         TypeDefinitionTypes.Add('       '+TypeDefinition^.Members[j].Name+':array[0..'+TypeDefinition^.Members[j].ArraySizeStr+'-1] of '+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)+';'+MemberComment(TypeDefinition^.Members[j].Comment));
-        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TVkChar' then begin
-         ParameterLine:=ParameterLine+'TVkCharString';
+        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TXrChar' then begin
+         ParameterLine:=ParameterLine+'TXrCharString';
         end else begin
          ParameterLine:=ParameterLine+'array of '+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr);
         end;
        end else if TypeDefinition^.Members[j].ArraySizeInt>=0 then begin
         TypeDefinitionTypes.Add('       '+TypeDefinition^.Members[j].Name+':array[0..'+IntToStr(TypeDefinition^.Members[j].ArraySizeInt-1)+'] of '+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)+';'+MemberComment(TypeDefinition^.Members[j].Comment));
-        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TVkChar' then begin
-         ParameterLine:=ParameterLine+'TVkCharString';
+        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TXrChar' then begin
+         ParameterLine:=ParameterLine+'TXrCharString';
         end else begin
          ParameterLine:=ParameterLine+'array of '+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr);
         end;
        end else begin
         TypeDefinitionTypes.Add('       '+TypeDefinition^.Members[j].Name+':'+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)+';'+MemberComment(TypeDefinition^.Members[j].Comment));
-        if (TypeDefinition^.Members[j].Type_<>'VkStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
          ParameterLine:=ParameterLine+TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr);
         end;
        end;
        if (length(TypeDefinition^.Members[j].ArraySizeStr)>0) or (TypeDefinition^.Members[j].ArraySizeInt>=0) then begin
         HasArray:=true;
-        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TVkChar' then begin
+        if TranslateType(TypeDefinition^.Members[j].Type_,TypeDefinition^.Members[j].Ptr)='TXrChar' then begin
          RecordConstructorCodeBlockStringList.Add(' ArrayItemCount:=length('+ParameterName+');');
          RecordConstructorCodeBlockStringList.Add(' if ArrayItemCount>length('+TypeDefinition^.Members[j].Name+') then begin');
          RecordConstructorCodeBlockStringList.Add('  ArrayItemCount:=length('+TypeDefinition^.Members[j].Name+');');
@@ -3980,11 +3980,11 @@ begin
          RecordConstructorCodeBlockStringList.Add(' end;');
         end;
        end else begin
-        if (TypeDefinition^.Members[j].Type_<>'VkStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+        if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':='+ParameterName+';');
-        end else if TypeDefinition^.Members[j].Type_='VkStructureType' then begin
+        end else if TypeDefinition^.Members[j].Type_='XrStructureType' then begin
          ParameterName:=TypeDefinition^.Members[j].Comment;
-         k:=pos('VK_STRUCTURE_TYPE_',ParameterName);
+         k:=pos('XR_STRUCTURE_TYPE_',ParameterName);
          if k>0 then begin
           Delete(ParameterName,1,k-1);
           for k:=1 to length(ParameterName) do begin
@@ -3995,10 +3995,10 @@ begin
           end;
           RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':='+ParameterName+';');
          end else if (length(TypeDefinition^.Members[j].Values)>0) and
-                     (copy(TypeDefinition^.Members[j].Values,1,length('VK_STRUCTURE_TYPE_'))='VK_STRUCTURE_TYPE_') then begin
+                     (copy(TypeDefinition^.Members[j].Values,1,length('XR_STRUCTURE_TYPE_'))='XR_STRUCTURE_TYPE_') then begin
           RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':='+TypeDefinition^.Members[j].Values+';');
          end else if TypeDefinition^.Members[j].Name='sType' then begin
-          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':=TVkStructureType(TVkInt32(0));');
+          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':=TXrStructureType(TXrInt32(0));');
          end else begin
           Assert(false);
          end;
@@ -4006,7 +4006,7 @@ begin
          RecordConstructorCodeBlockStringList.Add(' '+TypeDefinition^.Members[j].Name+':=nil;');
         end;
        end;
-       if (TypeDefinition^.Members[j].Type_<>'VkStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
+       if (TypeDefinition^.Members[j].Type_<>'XrStructureType') and (TypeDefinition^.Members[j].Name<>'pNext') then begin
         if RecordConstructorStringList.Count=0 then begin
          CodeParameterLine:='constructor T'+TypeDefinition^.Name+'.Create(const '+ParameterLine;
          ParameterLine:='       constructor Create(const '+ParameterLine;
@@ -4021,20 +4021,20 @@ begin
          CodeParameterLine:=CodeParameterLine+');';
          ParameterLine:=ParameterLine+');'+MemberComment(TypeDefinition^.Members[j].Comment);
         end;
-        if (TypeDefinition^.Name<>'VkBaseInStructure') and
-           (TypeDefinition^.Name<>'VkBaseOutStructure') and
-           (TypeDefinition^.Name<>'VkSubpassEndInfoKHR') then begin
+        if (TypeDefinition^.Name<>'XrBaseInStructure') and
+           (TypeDefinition^.Name<>'XrBaseOutStructure') and
+           (TypeDefinition^.Name<>'XrSubpassEndInfoKHR') then begin
          RecordConstructorCodeStringList.Add(CodeParameterLine);
          RecordConstructorStringList.Add(ParameterLine);
         end;
        end;
       end;  
-      if (TypeDefinition^.Name<>'VkBaseInStructure') and
-         (TypeDefinition^.Name<>'VkBaseOutStructure') and
-         (TypeDefinition^.Name<>'VkSubpassEndInfoKHR') and
-         (TypeDefinition^.Name<>'VkSubpassEndInfo') then begin
+      if (TypeDefinition^.Name<>'XrBaseInStructure') and
+         (TypeDefinition^.Name<>'XrBaseOutStructure') and
+         (TypeDefinition^.Name<>'XrSubpassEndInfoKHR') and
+         (TypeDefinition^.Name<>'XrSubpassEndInfo') then begin
        if HasArray then begin
-        RecordConstructorCodeStringList.Add('var ArrayItemCount:TVkInt32;');
+        RecordConstructorCodeStringList.Add('var ArrayItemCount:TXrInt32;');
        end;
        RecordConstructorCodeStringList.Add('begin');
        if HasArray then begin
@@ -4154,9 +4154,9 @@ begin
   LowValue:='unknown';
   HighValue:='unknown';
   Values:=TStringList.Create;
-  if Name='VkVendorId' then begin
+  if Name='XrVendorId' then begin
    if length(Expand)=0 then begin
-    Expand:='VK_VENDOR_ID';
+    Expand:='XR_VENDOR_ID';
    end;
   end;
   try
@@ -4185,17 +4185,17 @@ begin
        end else begin
         Value:=ChildTag.GetParameter('value','');
         if Value='(~0U)' then begin
-         ValueItem^.ValueStr:='TVkUInt32($ffffffff)';
+         ValueItem^.ValueStr:='TXrUInt32($ffffffff)';
         end else if Value='(~0U-1)' then begin
-         ValueItem^.ValueStr:='TVkUInt32($fffffffe)';
+         ValueItem^.ValueStr:='TXrUInt32($fffffffe)';
         end else if Value='(~0U-2)' then begin
-         ValueItem^.ValueStr:='TVkUInt32($fffffffd)';
+         ValueItem^.ValueStr:='TXrUInt32($fffffffd)';
         end else if Value='(~0ULL)' then begin
-         ValueItem^.ValueStr:='TVkUInt64($ffffffffffffffff)';
+         ValueItem^.ValueStr:='TXrUInt64($ffffffffffffffff)';
         end else if Value='(~0ULL-1)' then begin
-         ValueItem^.ValueStr:='TVkUInt64($fffffffffffffffe)';
+         ValueItem^.ValueStr:='TXrUInt64($fffffffffffffffe)';
         end else if Value='(~0ULL-2)' then begin
-         ValueItem^.ValueStr:='TVkUInt64($fffffffffffffffd)';
+         ValueItem^.ValueStr:='TXrUInt64($fffffffffffffffd)';
         end else if (length(Value)>0) and ((pos('.',Value)>0) or ((pos('f',Value)=length(Value)) and (pos('x',Value)=0))) then begin
          ValueItem^.ValueStr:=StringReplace(Value,'f','',[]);
         end else if length(Value)>0 then begin
@@ -4300,7 +4300,7 @@ begin
       end;
      end else if ExtensionOrFeatureEnum.BitPos>=0 then begin
       if ExtensionOrFeatureEnum.BitPos=31 then begin
-       ValueItem^.ValueStr:=ExtensionOrFeatureEnum.Dir+'TVkInt32($'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8)+')';
+       ValueItem^.ValueStr:=ExtensionOrFeatureEnum.Dir+'TXrInt32($'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8)+')';
       end else begin
        ValueItem^.ValueStr:=ExtensionOrFeatureEnum.Dir+'$'+IntToHex(longword(1) shl ExtensionOrFeatureEnum.BitPos,8);
       end;
@@ -4434,9 +4434,9 @@ var i,j,k,ArraySize,CountTypeDefinitions:longint;
     IsDeviceCommand:boolean;
     ValidityStringList:TStringList;
 begin
- AllCommandType.Add('     PPVulkanCommands=^PVulkanCommands;');
- AllCommandType.Add('     PVulkanCommands=^TVulkanCommands;');
- AllCommandType.Add('     TVulkanCommands=record');
+ AllCommandType.Add('     PPOpenXRCommands=^POpenXRCommands;');
+ AllCommandType.Add('     POpenXRCommands=^TOpenXRCommands;');
+ AllCommandType.Add('     TOpenXRCommands=record');
  for i:=0 to Tag.Items.Count-1 do begin
   ChildItem:=Tag.Items[i];
   if ChildItem is TXMLTag then begin
@@ -4517,7 +4517,7 @@ begin
          if length(Line)>0 then begin
           Line:=Line+';';
          end else begin
-          if (ParamType='VkDevice') or (ParamType='VkQueue') or (ParamType='VkCommandBuffer') then begin
+          if (ParamType='XrDevice') or (ParamType='XrQueue') or (ParamType='XrCommandBuffer') then begin
            IsDeviceCommand:=true;
           end;
          end;
@@ -4548,12 +4548,12 @@ begin
           Define:='XCB';
          end else if (ParamType='wl_display') or (ParamType='wl_surface') or (pos('Wayland',ParamType)>0) then begin
           Define:='Wayland';
-         end else if (pos('IOS',UpperCase(ParamType))>0) and (pos('MVK',ParamType)>0) then begin
-          Define:='MoltenVK_IOS';
-         end else if (pos('MACOS',UpperCase(ParamType))>0) and (pos('MVK',ParamType)>0) then begin
-          Define:='MoltenVK_MacOS';
-         end else if (pos('MVK',ParamType)>0) or (pos('MOLTENVK',UpperCase(ParamType))>0) then begin
-          Define:='MoltenVK';
+         end else if (pos('IOS',UpperCase(ParamType))>0) and (pos('MXR',ParamType)>0) then begin
+          Define:='MoltenXR_IOS';
+         end else if (pos('MACOS',UpperCase(ParamType))>0) and (pos('MXR',ParamType)>0) then begin
+          Define:='MoltenXR_MacOS';
+         end else if (pos('MXR',ParamType)>0) or (pos('MOLTENXR',UpperCase(ParamType))>0) then begin
+          Define:='MoltenXR';
          end else if (ParamType='ANativeWindow') or (ParamType='AHardwareBuffer') or (pos('Android',ParamType)>0) or (pos('ANDROID',ParamType)>0) then begin
           Define:='Android';
          end else if (ParamType='zx_handle_t') or (pos('FUCHSIA',UpperCase(ParamType))>0) then begin
@@ -4593,13 +4593,13 @@ begin
       AllCommandType.Add('      '+copy(ProtoName,3,length(ProtoName)-2)+':T'+ProtoName+';');
       if (ProtoType='void') and (ProtoPtr=0) then begin
        AllCommandClassDefinitions.Add('       procedure '+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+'); virtual;');
-       AllCommandClassImplementations.Add('procedure TVulkan.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+');');
+       AllCommandClassImplementations.Add('procedure TOpenXR.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+');');
        AllCommandClassImplementations.Add('begin');
        AllCommandClassImplementations.Add(' fCommands.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Parameters+');');
        AllCommandClassImplementations.Add('end;');
       end else begin
        AllCommandClassDefinitions.Add('       function '+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+'):'+TranslateType(ProtoType,ProtoPtr)+'; virtual;');
-       AllCommandClassImplementations.Add('function TVulkan.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+'):'+TranslateType(ProtoType,ProtoPtr)+';');
+       AllCommandClassImplementations.Add('function TOpenXR.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Line+'):'+TranslateType(ProtoType,ProtoPtr)+';');
        AllCommandClassImplementations.Add('begin');
        AllCommandClassImplementations.Add(' result:=fCommands.'+copy(ProtoName,3,length(ProtoName)-2)+'('+Parameters+');');
        AllCommandClassImplementations.Add('end;');
@@ -4708,8 +4708,8 @@ begin
 
 end;
 
-var VKXMLFileStream:TMemoryStream;
-    VKXML:TXML;
+var XRXMLFileStream:TMemoryStream;
+    XRXML:TXML;
     RegistryTag:TXMLTag;
     OutputPAS:TStringList;
 
@@ -4745,32 +4745,32 @@ begin
  InitializeEntites;
  try
 
-  VKXMLFileStream:=TMemoryStream.Create;
+  XRXMLFileStream:=TMemoryStream.Create;
   try
 
-   write('Loading "vk.xml" . . . ');
+   write('Loading "xr.xml" . . . ');
 
    try
-    VKXMLFileStream.LoadFromFile('vk.xml');
+    XRXMLFileStream.LoadFromFile('xr.xml');
    except
     writeln('Error!');
     raise;
    end;
 
-   if VKXMLFileStream.Seek(0,soBeginning)=0 then begin
+   if XRXMLFileStream.Seek(0,soBeginning)=0 then begin
 
     writeln('OK!');
 
-    VKXML:=TXML.Create;
+    XRXML:=TXML.Create;
     try
 
-     write('Parsing "vk.xml" . . . ');
-     if VKXML.Parse(VKXMLFileStream) then begin
+     write('Parsing "xr.xml" . . . ');
+     if XRXML.Parse(XRXMLFileStream) then begin
 
       writeln('OK!');
 
       write('Searching for registry tag . . . ');
-      RegistryTag:=VKXML.Root.FindTag('registry');
+      RegistryTag:=XRXML.Root.FindTag('registry');
       if assigned(RegistryTag) then begin
        writeln('found!');
        ParseRegistryTag(RegistryTag);
@@ -4783,7 +4783,7 @@ begin
      end;
 
     finally
-     VKXML.Free;
+     XRXML.Free;
     end;
 
    end else begin
@@ -4791,10 +4791,10 @@ begin
    end;
 
   finally
-   VKXMLFileStream.Free;
+   XRXMLFileStream.Free;
   end;
 
-  write('Generating "Vulkan.pas" . . . ');
+  write('Generating "OpenXR.pas" . . . ');
   ProcessExtensions;
   OutputPAS:=TStringList.Create;
   try
@@ -4822,10 +4822,10 @@ begin
    OutputPAS.Add('** MATERIALS OR THE USE OR OTHER DEALINGS IN THE MATERIALS.');
    OutputPAS.Add('*)');
    OutputPAS.Add('(*');
-   OutputPAS.Add('** This header is generated from the Khronos Vulkan XML API Registry.');
+   OutputPAS.Add('** This header is generated from the Khronos OpenXR XML API Registry.');
    OutputPAS.Add('**');
    OutputPAS.Add('*)');
-   OutputPAS.Add('unit Vulkan;');
+   OutputPAS.Add('unit OpenXR;');
    OutputPAS.Add('{$ifdef fpc}');
    OutputPAS.Add(' {$mode delphi}');
    OutputPAS.Add(' {$z4}');
@@ -4857,18 +4857,18 @@ begin
    OutputPAS.Add(' {$define Windows}');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('{$if defined(Android)}');
-   OutputPAS.Add(' {$define VK_USE_PLATFORM_ANDROID_KHR}');
+   OutputPAS.Add(' {$define XR_USE_PLATFORM_ANDROID_KHR}');
    OutputPAS.Add('{$elseif defined(Windows)}');
-   OutputPAS.Add(' {$define VK_USE_PLATFORM_WIN32_KHR}');
+   OutputPAS.Add(' {$define XR_USE_PLATFORM_WIN32_KHR}');
    OutputPAS.Add('{$elseif defined(Unix) or defined(Linux)}');
    OutputPAS.Add(' {$ifdef WAYLAND}');
-   OutputPAS.Add('  {$define VK_USE_PLATFORM_WAYLAND_KHR}');
+   OutputPAS.Add('  {$define XR_USE_PLATFORM_WAYLAND_KHR}');
    OutputPAS.Add(' {$endif}');
    OutputPAS.Add(' {$ifdef XCB}');
-   OutputPAS.Add('  {$define VK_USE_PLATFORM_XCB_KHR}');
+   OutputPAS.Add('  {$define XR_USE_PLATFORM_XCB_KHR}');
    OutputPAS.Add(' {$endif}');
    OutputPAS.Add(' {$ifdef XLIB}');
-   OutputPAS.Add('  {$define VK_USE_PLATFORM_XLIB_KHR}');
+   OutputPAS.Add('  {$define XR_USE_PLATFORM_XLIB_KHR}');
    OutputPAS.Add(' {$endif}');
    OutputPAS.Add('{$ifend}');
    OutputPAS.Add('');
@@ -4879,85 +4879,85 @@ begin
    OutputPAS.Add('     {$elseif defined(Unix)}');
    OutputPAS.Add('      BaseUnix,UnixType,dl,');
    OutputPAS.Add('     {$ifend}');
-   OutputPAS.Add('     {$if defined(XLIB) and defined(VulkanUseXLIBUnits)}x,xlib,{$ifend}');
-   OutputPAS.Add('     {$if defined(XCB) and defined(VulkanUseXCBUnits)}xcb,{$ifend}');
-   OutputPAS.Add('     {$if defined(Wayland) and defined(VulkanUseWaylandUnits)}Wayland,{$ifend}');
-   OutputPAS.Add('     {$if defined(Android) and defined(VulkanUseAndroidUnits)}Android,{$ifend}');
-   OutputPAS.Add('     {$if defined(Fuchsia) and defined(VulkanUseFuchsiaUnits)}Fuchsia,{$ifend}');
-   OutputPAS.Add('     {$if defined(DirectFB) and defined(VulkanUseDirectFBUnits)}DirectFB,{$ifend}');
+   OutputPAS.Add('     {$if defined(XLIB) and defined(OpenXRUseXLIBUnits)}x,xlib,{$ifend}');
+   OutputPAS.Add('     {$if defined(XCB) and defined(OpenXRUseXCBUnits)}xcb,{$ifend}');
+   OutputPAS.Add('     {$if defined(Wayland) and defined(OpenXRUseWaylandUnits)}Wayland,{$ifend}');
+   OutputPAS.Add('     {$if defined(Android) and defined(OpenXRUseAndroidUnits)}Android,{$ifend}');
+   OutputPAS.Add('     {$if defined(Fuchsia) and defined(OpenXRUseFuchsiaUnits)}Fuchsia,{$ifend}');
+   OutputPAS.Add('     {$if defined(DirectFB) and defined(OpenXRUseDirectFBUnits)}DirectFB,{$ifend}');
    OutputPAS.Add('     SysUtils;');
    OutputPAS.Add('');
-   OutputPAS.Add('const VK_DEFAULT_LIB_NAME={$ifdef Windows}''vulkan-1.dll''{$else}{$ifdef Android}''libvulkan.so''{$else}{$ifdef Unix}''libvulkan.so.1''{$else}''libvulkan''{$endif}{$endif}{$endif};');
+   OutputPAS.Add('const XR_DEFAULT_LIB_NAME={$ifdef Windows}''openxr-1.dll''{$else}{$ifdef Android}''libopenxr.so''{$else}{$ifdef Unix}''libopenxr.so.1''{$else}''libopenxr''{$endif}{$endif}{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('type PPVkInt8=^PVkInt8;');
-   OutputPAS.Add('     PVkInt8=^TVkInt8;');
-   OutputPAS.Add('     TVkInt8={$ifdef FPC}Int8{$else}ShortInt{$endif};');
+   OutputPAS.Add('type PPXrInt8=^PXrInt8;');
+   OutputPAS.Add('     PXrInt8=^TXrInt8;');
+   OutputPAS.Add('     TXrInt8={$ifdef FPC}Int8{$else}ShortInt{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkUInt8=^PVkUInt8;');
-   OutputPAS.Add('     PVkUInt8=^TVkUInt8;');
-   OutputPAS.Add('     TVkUInt8={$ifdef FPC}UInt8{$else}Byte{$endif};');
+   OutputPAS.Add('     PPXrUInt8=^PXrUInt8;');
+   OutputPAS.Add('     PXrUInt8=^TXrUInt8;');
+   OutputPAS.Add('     TXrUInt8={$ifdef FPC}UInt8{$else}Byte{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkInt16=^PVkInt16;');
-   OutputPAS.Add('     PVkInt16=^TVkInt16;');
-   OutputPAS.Add('     TVkInt16={$ifdef FPC}Int16{$else}SmallInt{$endif};');
+   OutputPAS.Add('     PPXrInt16=^PXrInt16;');
+   OutputPAS.Add('     PXrInt16=^TXrInt16;');
+   OutputPAS.Add('     TXrInt16={$ifdef FPC}Int16{$else}SmallInt{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkUInt16=^PVkUInt16;');
-   OutputPAS.Add('     PVkUInt16=^TVkUInt16;');
-   OutputPAS.Add('     TVkUInt16={$ifdef FPC}UInt16{$else}Word{$endif};');
+   OutputPAS.Add('     PPXrUInt16=^PXrUInt16;');
+   OutputPAS.Add('     PXrUInt16=^TXrUInt16;');
+   OutputPAS.Add('     TXrUInt16={$ifdef FPC}UInt16{$else}Word{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkInt32=^PVkInt32;');
-   OutputPAS.Add('     PVkInt32=^TVkInt32;');
-   OutputPAS.Add('     TVkInt32={$ifdef FPC}Int32{$else}LongInt{$endif};');
+   OutputPAS.Add('     PPXrInt32=^PXrInt32;');
+   OutputPAS.Add('     PXrInt32=^TXrInt32;');
+   OutputPAS.Add('     TXrInt32={$ifdef FPC}Int32{$else}LongInt{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkUInt32=^PVkUInt32;');
-   OutputPAS.Add('     PVkUInt32=^TVkUInt32;');
-   OutputPAS.Add('     TVkUInt32={$ifdef FPC}UInt32{$else}LongWord{$endif};');
+   OutputPAS.Add('     PPXrUInt32=^PXrUInt32;');
+   OutputPAS.Add('     PXrUInt32=^TXrUInt32;');
+   OutputPAS.Add('     TXrUInt32={$ifdef FPC}UInt32{$else}LongWord{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkInt64=^PVkInt64;');
-   OutputPAS.Add('     PVkInt64=^TVkInt64;');
-   OutputPAS.Add('     TVkInt64=Int64;');
+   OutputPAS.Add('     PPXrInt64=^PXrInt64;');
+   OutputPAS.Add('     PXrInt64=^TXrInt64;');
+   OutputPAS.Add('     TXrInt64=Int64;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkUInt64=^PVkUInt64;');
-   OutputPAS.Add('     PVkUInt64=^TVkUInt64;');
-   OutputPAS.Add('     TVkUInt64=UInt64;');
+   OutputPAS.Add('     PPXrUInt64=^PXrUInt64;');
+   OutputPAS.Add('     PXrUInt64=^TXrUInt64;');
+   OutputPAS.Add('     TXrUInt64=UInt64;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkChar=^PVkChar;');
-   OutputPAS.Add('     PVkChar=PAnsiChar;');
-   OutputPAS.Add('     TVkChar=AnsiChar;');
+   OutputPAS.Add('     PPXrChar=^PXrChar;');
+   OutputPAS.Add('     PXrChar=PAnsiChar;');
+   OutputPAS.Add('     TXrChar=AnsiChar;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkPointer=^PVkPointer;');
-   OutputPAS.Add('     PVkPointer=^TVkPointer;');
-   OutputPAS.Add('     TVkPointer=Pointer;');
+   OutputPAS.Add('     PPXrPointer=^PXrPointer;');
+   OutputPAS.Add('     PXrPointer=^TXrPointer;');
+   OutputPAS.Add('     TXrPointer=Pointer;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkVoid=^PVkVoid;');
-   OutputPAS.Add('     PVkVoid=Pointer;');
+   OutputPAS.Add('     PPXrVoid=^PXrVoid;');
+   OutputPAS.Add('     PXrVoid=Pointer;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkHalfFloat=^PVkHalfFloat;');
-   OutputPAS.Add('     PVkHalfFloat=^TVkHalfFloat;');
-   OutputPAS.Add('     TVkHalfFloat=TVkUInt16;');
+   OutputPAS.Add('     PPXrHalfFloat=^PXrHalfFloat;');
+   OutputPAS.Add('     PXrHalfFloat=^TXrHalfFloat;');
+   OutputPAS.Add('     TXrHalfFloat=TXrUInt16;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkFloat=^PVkFloat;');
-   OutputPAS.Add('     PVkFloat=^TVkFloat;');
-   OutputPAS.Add('     TVkFloat=Single;');
+   OutputPAS.Add('     PPXrFloat=^PXrFloat;');
+   OutputPAS.Add('     PXrFloat=^TXrFloat;');
+   OutputPAS.Add('     TXrFloat=Single;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkDouble=^PVkDouble;');
-   OutputPAS.Add('     PVkDouble=^TVkDouble;');
-   OutputPAS.Add('     TVkDouble=Double;');
+   OutputPAS.Add('     PPXrDouble=^PXrDouble;');
+   OutputPAS.Add('     PXrDouble=^TXrDouble;');
+   OutputPAS.Add('     TXrDouble=Double;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkPtrUInt=^PVkPtrUInt;');
-   OutputPAS.Add('     PPVkPtrInt=^PVkPtrInt;');
-   OutputPAS.Add('     PVkPtrUInt=^TVkPtrUInt;');
-   OutputPAS.Add('     PVkPtrInt=^TVkPtrInt;');
+   OutputPAS.Add('     PPXrPtrUInt=^PXrPtrUInt;');
+   OutputPAS.Add('     PPXrPtrInt=^PXrPtrInt;');
+   OutputPAS.Add('     PXrPtrUInt=^TXrPtrUInt;');
+   OutputPAS.Add('     PXrPtrInt=^TXrPtrInt;');
    OutputPAS.Add('{$ifdef fpc}');
-   OutputPAS.Add('     TVkPtrUInt=PtrUInt;');
-   OutputPAS.Add('     TVkPtrInt=PtrInt;');
+   OutputPAS.Add('     TXrPtrUInt=PtrUInt;');
+   OutputPAS.Add('     TXrPtrInt=PtrInt;');
    OutputPAS.Add(' {$undef OldDelphi}');
    OutputPAS.Add('{$else}');
    OutputPAS.Add(' {$ifdef conditionalexpressions}');
    OutputPAS.Add('  {$if CompilerVersion>=23.0}');
    OutputPAS.Add('   {$undef OldDelphi}');
-   OutputPAS.Add('     TVkPtrUInt=NativeUInt;');
-   OutputPAS.Add('     TVkPtrInt=NativeInt;');
+   OutputPAS.Add('     TXrPtrUInt=NativeUInt;');
+   OutputPAS.Add('     TXrPtrInt=NativeInt;');
    OutputPAS.Add('  {$else}');
    OutputPAS.Add('   {$define OldDelphi}');
    OutputPAS.Add('  {$ifend}');
@@ -4967,138 +4967,138 @@ begin
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('{$ifdef OldDelphi}');
    OutputPAS.Add('{$ifdef cpu64}');
-   OutputPAS.Add('     TVkPtrUInt=TVkUInt64;');
-   OutputPAS.Add('     TVkPtrInt=TVkInt64;');
+   OutputPAS.Add('     TXrPtrUInt=TXrUInt64;');
+   OutputPAS.Add('     TXrPtrInt=TXrInt64;');
    OutputPAS.Add('{$else}');
-   OutputPAS.Add('     TVkPtrUInt=TVkUInt32;');
-   OutputPAS.Add('     TVkPtrInt=TVkInt32;');
+   OutputPAS.Add('     TXrPtrUInt=TXrUInt32;');
+   OutputPAS.Add('     TXrPtrInt=TXrInt32;');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkSizeUInt=^PVkSizeUInt;');
-   OutputPAS.Add('     PVkSizeUInt=^TVkSizeUInt;');
-   OutputPAS.Add('     TVkSizeUInt=TVkPtrUInt;');
+   OutputPAS.Add('     PPXrSizeUInt=^PXrSizeUInt;');
+   OutputPAS.Add('     PXrSizeUInt=^TXrSizeUInt;');
+   OutputPAS.Add('     TXrSizeUInt=TXrPtrUInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkSizeInt=^PVkSizeInt;');
-   OutputPAS.Add('     PVkSizeInt=^TVkSizeInt;');
-   OutputPAS.Add('     TVkSizeInt=TVkPtrInt;');
+   OutputPAS.Add('     PPXrSizeInt=^PXrSizeInt;');
+   OutputPAS.Add('     PXrSizeInt=^TXrSizeInt;');
+   OutputPAS.Add('     TXrSizeInt=TXrPtrInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkSize=^PVkSizeUInt;');
-   OutputPAS.Add('     PVkSize=^TVkSizeUInt;');
-   OutputPAS.Add('     TVkSize=TVkPtrUInt;');
+   OutputPAS.Add('     PPXrSize=^PXrSizeUInt;');
+   OutputPAS.Add('     PXrSize=^TXrSizeUInt;');
+   OutputPAS.Add('     TXrSize=TXrPtrUInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkPtrDiff=^PVkPtrDiff;');
-   OutputPAS.Add('     PVkPtrDiff=^TVkPtrDiff;');
-   OutputPAS.Add('     TVkPtrDiff=TVkPtrInt;');
+   OutputPAS.Add('     PPXrPtrDiff=^PXrPtrDiff;');
+   OutputPAS.Add('     PXrPtrDiff=^TXrPtrDiff;');
+   OutputPAS.Add('     TXrPtrDiff=TXrPtrInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkCharString=^PVkCharString;');
-   OutputPAS.Add('     PVkCharString=^TVkCharString;');
-   OutputPAS.Add('     TVkCharString=AnsiString;');
+   OutputPAS.Add('     PPXrCharString=^PXrCharString;');
+   OutputPAS.Add('     PXrCharString=^TXrCharString;');
+   OutputPAS.Add('     TXrCharString=AnsiString;');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef Android}');
-   OutputPAS.Add('     PPVkAndroidANativeWindow=^PVkAndroidANativeWindow;');
-   OutputPAS.Add('     PVkAndroidANativeWindow={$ifdef VulkanUseAndroidUnits}PANativeWindow{$else}TVkPointer{$endif};');
+   OutputPAS.Add('     PPXrAndroidANativeWindow=^PXrAndroidANativeWindow;');
+   OutputPAS.Add('     PXrAndroidANativeWindow={$ifdef OpenXRUseAndroidUnits}PANativeWindow{$else}TXrPointer{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkAndroidAHardwareBuffer=^PVkAndroidAHardwareBuffer;');
-   OutputPAS.Add('     PVkAndroidAHardwareBuffer={$ifdef VulkanUseAndroidUnits}PAHardwareBuffer{$else}TVkPointer{$endif};');
+   OutputPAS.Add('     PPXrAndroidAHardwareBuffer=^PXrAndroidAHardwareBuffer;');
+   OutputPAS.Add('     PXrAndroidAHardwareBuffer={$ifdef OpenXRUseAndroidUnits}PAHardwareBuffer{$else}TXrPointer{$endif};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef Fuchsia}');
-   OutputPAS.Add('     PPVkFuchsiaZXHandle=^PVkFuchsiaZXHandle;');
-   OutputPAS.Add('     PVkFuchsiaZXHandle=^TVkFuchsiaZXHandle;');
-   OutputPAS.Add('     TVkFuchsiaZXHandle={$ifdef VulkanUseFuchsiaUnits}Tzx_handle_t{$else}TVkSizeUInt{$endif};');
+   OutputPAS.Add('     PPXrFuchsiaZXHandle=^PXrFuchsiaZXHandle;');
+   OutputPAS.Add('     PXrFuchsiaZXHandle=^TXrFuchsiaZXHandle;');
+   OutputPAS.Add('     TXrFuchsiaZXHandle={$ifdef OpenXRUseFuchsiaUnits}Tzx_handle_t{$else}TXrSizeUInt{$endif};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef DirectFB}');
-   OutputPAS.Add('     PPVkDirectFBIDirectFB=^PVkDirectFBIDirectFB;');
-   OutputPAS.Add('     PVkDirectFBIDirectFB=^TVkDirectFBIDirectFB;');
-   OutputPAS.Add('     TVkDirectFBIDirectFB={$ifdef VulkanUseDirectFBUnits}IDirectFB{$else}TVkSizeUInt{$endif};');
+   OutputPAS.Add('     PPXrDirectFBIDirectFB=^PXrDirectFBIDirectFB;');
+   OutputPAS.Add('     PXrDirectFBIDirectFB=^TXrDirectFBIDirectFB;');
+   OutputPAS.Add('     TXrDirectFBIDirectFB={$ifdef OpenXRUseDirectFBUnits}IDirectFB{$else}TXrSizeUInt{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkDirectFBIDirectFBSurface=^PVkDirectFBIDirectFBSurface;');
-   OutputPAS.Add('     PVkDirectFBIDirectFBSurface=^TVkDirectFBIDirectFBSurface;');
-   OutputPAS.Add('     TVkDirectFBIDirectFBSurface={$ifdef VulkanUseDirectFBUnits}IDirectFBSurface{$else}TVkSizeUInt{$endif};');
+   OutputPAS.Add('     PPXrDirectFBIDirectFBSurface=^PXrDirectFBIDirectFBSurface;');
+   OutputPAS.Add('     PXrDirectFBIDirectFBSurface=^TXrDirectFBIDirectFBSurface;');
+   OutputPAS.Add('     TXrDirectFBIDirectFBSurface={$ifdef OpenXRUseDirectFBUnits}IDirectFBSurface{$else}TXrSizeUInt{$endif};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef Wayland}');
-   OutputPAS.Add('     PPVkWaylandDisplay=^PVkWaylandDisplay;');
-   OutputPAS.Add('     PVkWaylandDisplay={$ifdef VulkanUseWaylandUnits}Pwl_display{$else}TVkPointer{$endif};');
+   OutputPAS.Add('     PPXrWaylandDisplay=^PXrWaylandDisplay;');
+   OutputPAS.Add('     PXrWaylandDisplay={$ifdef OpenXRUseWaylandUnits}Pwl_display{$else}TXrPointer{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkWaylandSurface=^PVkWaylandSurface;');
-   OutputPAS.Add('     PVkWaylandSurface={$ifdef VulkanUseWaylandUnits}Pwl_surface{$else}TVkPointer{$endif};');
+   OutputPAS.Add('     PPXrWaylandSurface=^PXrWaylandSurface;');
+   OutputPAS.Add('     PXrWaylandSurface={$ifdef OpenXRUseWaylandUnits}Pwl_surface{$else}TXrPointer{$endif};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef XCB}');
-   OutputPAS.Add('     PPVkXCBConnection=^PVkXCBConnection;');
-   OutputPAS.Add('     PVkXCBConnection={$ifdef VulkanUseXCBUnits}Pxcb_connection_t{$else}TVkPointer{$endif};');
+   OutputPAS.Add('     PPXrXCBConnection=^PXrXCBConnection;');
+   OutputPAS.Add('     PXrXCBConnection={$ifdef OpenXRUseXCBUnits}Pxcb_connection_t{$else}TXrPointer{$endif};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkXCBVisualID=^PVkXCBVisualID;');
-   OutputPAS.Add('     PVkXCBVisualID={$ifdef VulkanUseXCBUnits}Pxcb_visualid_t{$else}^TVkXCBVisualID{$endif};');
-   OutputPAS.Add('     TVkXCBVisualID={$if defined(VulkanUseXCBUnits)}Pxcb_visualid_t{$elseif defined(CPU64)}TVkUInt64{$else}TVKUInt32{$ifend};');
+   OutputPAS.Add('     PPXrXCBVisualID=^PXrXCBVisualID;');
+   OutputPAS.Add('     PXrXCBVisualID={$ifdef OpenXRUseXCBUnits}Pxcb_visualid_t{$else}^TXrXCBVisualID{$endif};');
+   OutputPAS.Add('     TXrXCBVisualID={$if defined(OpenXRUseXCBUnits)}Pxcb_visualid_t{$elseif defined(CPU64)}TXrUInt64{$else}TXRUInt32{$ifend};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkXCBWindow=^PVkXCBWindow;');
-   OutputPAS.Add('     PVkXCBWindow={$ifdef VulkanUseXCBUnits}Pxcb_window_t{$else}^TVkXCBWindow{$endif};');
-   OutputPAS.Add('     TVkXCBWindow={$if defined(VulkanUseXCBUnits)}Txcb_window_t{$elseif defined(CPU64)}TVkUInt64{$else}TVKUInt32{$ifend};');
+   OutputPAS.Add('     PPXrXCBWindow=^PXrXCBWindow;');
+   OutputPAS.Add('     PXrXCBWindow={$ifdef OpenXRUseXCBUnits}Pxcb_window_t{$else}^TXrXCBWindow{$endif};');
+   OutputPAS.Add('     TXrXCBWindow={$if defined(OpenXRUseXCBUnits)}Txcb_window_t{$elseif defined(CPU64)}TXrUInt64{$else}TXRUInt32{$ifend};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef XLIB}');
-   OutputPAS.Add('     PPVkXLIBDisplay=^PVkXLIBDisplay;');
-   OutputPAS.Add('     PVkXLIBDisplay={$ifdef VulkanUseXLIBUnits}PDisplay{$else}TVkPointer{$endif};');
-   OutputPAS.Add('     {$ifdef VulkanUseXLIBUnits}TVkXLIBDisplay=TDisplay;{$endif}');
+   OutputPAS.Add('     PPXrXLIBDisplay=^PXrXLIBDisplay;');
+   OutputPAS.Add('     PXrXLIBDisplay={$ifdef OpenXRUseXLIBUnits}PDisplay{$else}TXrPointer{$endif};');
+   OutputPAS.Add('     {$ifdef OpenXRUseXLIBUnits}TXrXLIBDisplay=TDisplay;{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkXLIBVisualID=^PVkXLIBVisualID;');
-   OutputPAS.Add('     PVkXLIBVisualID={$ifdef VulkanUseXLIBUnits}PVisualID{$else}^TVkXLIBVisualID{$endif};');
-   OutputPAS.Add('     TVkXLIBVisualID={$if defined(VulkanUseXLIBUnits)}TVisualID{$elseif defined(CPU64)}TVkUInt64{$else}TVKUInt32{$ifend};');
+   OutputPAS.Add('     PPXrXLIBVisualID=^PXrXLIBVisualID;');
+   OutputPAS.Add('     PXrXLIBVisualID={$ifdef OpenXRUseXLIBUnits}PVisualID{$else}^TXrXLIBVisualID{$endif};');
+   OutputPAS.Add('     TXrXLIBVisualID={$if defined(OpenXRUseXLIBUnits)}TVisualID{$elseif defined(CPU64)}TXrUInt64{$else}TXRUInt32{$ifend};');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkXLIBWindow=^PVkXLIBWindow;');
-   OutputPAS.Add('     PVkXLIBWindow={$ifdef VulkanUseXLIBUnits}PWindow{$else}^TVkXLIBWindow{$endif};');
-   OutputPAS.Add('     TVkXLIBWindow={$if defined(VulkanUseXLIBUnits)}TWindow{$elseif defined(CPU64)}TVkUInt64{$else}TVKUInt32{$ifend};');
+   OutputPAS.Add('     PPXrXLIBWindow=^PXrXLIBWindow;');
+   OutputPAS.Add('     PXrXLIBWindow={$ifdef OpenXRUseXLIBUnits}PWindow{$else}^TXrXLIBWindow{$endif};');
+   OutputPAS.Add('     TXrXLIBWindow={$if defined(OpenXRUseXLIBUnits)}TWindow{$elseif defined(CPU64)}TXrUInt64{$else}TXRUInt32{$ifend};');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('     TVkNonDefinedType=pointer;');
+   OutputPAS.Add('     TXrNonDefinedType=pointer;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkGgpStreamDescriptor=^PVkGgpStreamDescriptor;');
-   OutputPAS.Add('     PVkGgpStreamDescriptor=^TVkGgpStreamDescriptor;');
-   OutputPAS.Add('     TVkGgpStreamDescriptor=TVkNonDefinedType;');
+   OutputPAS.Add('     PPXrGgpStreamDescriptor=^PXrGgpStreamDescriptor;');
+   OutputPAS.Add('     PXrGgpStreamDescriptor=^TXrGgpStreamDescriptor;');
+   OutputPAS.Add('     TXrGgpStreamDescriptor=TXrNonDefinedType;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkGgpFrameToken=^PVkGgpFrameToken;');
-   OutputPAS.Add('     PVkGgpFrameToken=^TVkGgpFrameToken;');
-   OutputPAS.Add('     TVkGgpFrameToken=TVkNonDefinedType;');
+   OutputPAS.Add('     PPXrGgpFrameToken=^PXrGgpFrameToken;');
+   OutputPAS.Add('     PXrGgpFrameToken=^TXrGgpFrameToken;');
+   OutputPAS.Add('     TXrGgpFrameToken=TXrNonDefinedType;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkCAMetalLayer=^PVkCAMetalLayer;');
-   OutputPAS.Add('     PVkCAMetalLayer=^TVkCAMetalLayer;');
-   OutputPAS.Add('     TVkCAMetalLayer=TVkNonDefinedType;');
+   OutputPAS.Add('     PPXrCAMetalLayer=^PXrCAMetalLayer;');
+   OutputPAS.Add('     PXrCAMetalLayer=^TXrCAMetalLayer;');
+   OutputPAS.Add('     TXrCAMetalLayer=TXrNonDefinedType;');
    OutputPAS.Add('');
-   OutputPAS.Add('const VK_NULL_HANDLE=0;');
+   OutputPAS.Add('const XR_NULL_HANDLE=0;');
    OutputPAS.Add('');
-   OutputPAS.Add('      VK_NULL_INSTANCE=0;');
+   OutputPAS.Add('      XR_NULL_INSTANCE=0;');
    OutputPAS.Add('');
    OutputPAS.AddStrings(VersionConstants);
    OutputPAS.AddStrings(ENumConstants);
    OutputPAS.Add('');
-   OutputPAS.Add('type PPVkDispatchableHandle=^PVkDispatchableHandle;');
-   OutputPAS.Add('     PVkDispatchableHandle=^TVkDispatchableHandle;');
-   OutputPAS.Add('     TVkDispatchableHandle=TVkPtrInt;');
+   OutputPAS.Add('type PPXrDispatchableHandle=^PXrDispatchableHandle;');
+   OutputPAS.Add('     PXrDispatchableHandle=^TXrDispatchableHandle;');
+   OutputPAS.Add('     TXrDispatchableHandle=TXrPtrInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkNonDispatchableHandle=^PVkNonDispatchableHandle;');
-   OutputPAS.Add('     PVkNonDispatchableHandle=^TVkNonDispatchableHandle;');
-   OutputPAS.Add('     TVkNonDispatchableHandle=TVkUInt64;');
+   OutputPAS.Add('     PPXrNonDispatchableHandle=^PXrNonDispatchableHandle;');
+   OutputPAS.Add('     PXrNonDispatchableHandle=^TXrNonDispatchableHandle;');
+   OutputPAS.Add('     TXrNonDispatchableHandle=TXrUInt64;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkEnum=^PVkEnum;');
-   OutputPAS.Add('     PVkEnum=^TVkEnum;');
-   OutputPAS.Add('     TVkEnum=TVkInt32;');
+   OutputPAS.Add('     PPXrEnum=^PXrEnum;');
+   OutputPAS.Add('     PXrEnum=^TXrEnum;');
+   OutputPAS.Add('     TXrEnum=TXrInt32;');
    OutputPAS.Add('');
    OutputPAS.Add('{$ifdef Windows}');
-   OutputPAS.Add('     PPVkHINSTANCE=^PVkHINSTANCE;');
-   OutputPAS.Add('     PVkHINSTANCE=^TVkHINSTANCE;');
-   OutputPAS.Add('     TVkHINSTANCE=TVkPtrUInt;');
+   OutputPAS.Add('     PPXrHINSTANCE=^PXrHINSTANCE;');
+   OutputPAS.Add('     PXrHINSTANCE=^TXrHINSTANCE;');
+   OutputPAS.Add('     TXrHINSTANCE=TXrPtrUInt;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkHWND=^PVkHWND;');
-   OutputPAS.Add('     PVkHWND=^TVkHWND;');
-   OutputPAS.Add('     TVkHWND=HWND;');
+   OutputPAS.Add('     PPXrHWND=^PXrHWND;');
+   OutputPAS.Add('     PXrHWND=^TXrHWND;');
+   OutputPAS.Add('     TXrHWND=HWND;');
    OutputPAS.Add('');
-   OutputPAS.Add('     PPVkHMONITOR=^PVkHMONITOR;');
-   OutputPAS.Add('     PVkHMONITOR=^TVkHMONITOR;');
-   OutputPAS.Add('     TVkHMONITOR=HMONITOR;');
+   OutputPAS.Add('     PPXrHMONITOR=^PXrHMONITOR;');
+   OutputPAS.Add('     PXrHMONITOR=^TXrHMONITOR;');
+   OutputPAS.Add('     TXrHMONITOR=HMONITOR;');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.AddStrings(BaseTypes);
@@ -5111,27 +5111,27 @@ begin
    OutputPAS.Add('');
    OutputPAS.AddStrings(AllCommandType);
    OutputPAS.Add('');
-   OutputPAS.Add('     TVulkan=class');
+   OutputPAS.Add('     TOpenXR=class');
    OutputPAS.Add('      private');
-   OutputPAS.Add('       fCommands:TVulkanCommands;');
+   OutputPAS.Add('       fCommands:TOpenXRCommands;');
    OutputPAS.Add('      public');
    OutputPAS.Add('       constructor Create; reintroduce; overload;');
-   OutputPAS.Add('       constructor Create(const AVulkanCommands:TVulkanCommands); reintroduce; overload;');
+   OutputPAS.Add('       constructor Create(const AOpenXRCommands:TOpenXRCommands); reintroduce; overload;');
    OutputPAS.Add('       destructor Destroy; override;');
    OutputPAS.AddStrings(AllCommandClassDefinitions);
-   OutputPAS.Add('       property Commands:TVulkanCommands read fCommands;');
+   OutputPAS.Add('       property Commands:TOpenXRCommands read fCommands;');
    OutputPAS.Add('     end;');
    OutputPAS.Add('');
-   OutputPAS.Add('var LibVulkan:pointer=nil;');
+   OutputPAS.Add('var LibOpenXR:pointer=nil;');
    OutputPAS.Add('');
-   OutputPAS.Add('    vk:TVulkan=nil;');
+   OutputPAS.Add('    vk:TOpenXR=nil;');
    OutputPAS.Add('');
    OutputPAS.AddStrings(CommandVariables);
    OutputPAS.Add('');
-   OutputPAS.Add('function VK_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
-   OutputPAS.Add('function VK_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
-   OutputPAS.Add('function VK_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
-   OutputPAS.Add('function VK_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('');
    OutputPAS.Add('function vkLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('function vkFreeLibrary(LibraryHandle:pointer):boolean; {$ifdef CAN_INLINE}inline;{$endif}');
@@ -5139,29 +5139,29 @@ begin
    OutputPAS.Add('');
    OutputPAS.Add('function vkVoidFunctionToPointer(const VoidFunction:TPFN_vkVoidFunction):pointer; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadVulkanLibrary(const LibraryName:string=VK_DEFAULT_LIB_NAME):boolean;');
-   OutputPAS.Add('function LoadVulkanGlobalCommands:boolean;');
-   OutputPAS.Add('function LoadVulkanInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TVkInstance;out InstanceCommands:TVulkanCommands):boolean;');
-   OutputPAS.Add('function LoadVulkanDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TVkDevice;out DeviceCommands:TVulkanCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;');
+   OutputPAS.Add('function LoadOpenXRGlobalCommands:boolean;');
+   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('');
    OutputPAS.Add('implementation');
    OutputPAS.Add('');
-   OutputPAS.Add('function VK_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=(VersionMajor shl 22) or (VersionMinor shl 12) or (VersionPatch shl 0);');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function VK_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=Version shr 22;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function VK_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=(Version shr 12) and $3ff;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function VK_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
+   OutputPAS.Add('function XR_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}');
    OutputPAS.Add('begin');
    OutputPAS.Add(' result:=(Version shr 0) and $fff;');
    OutputPAS.Add('end;');
@@ -5213,20 +5213,20 @@ begin
    OutputPAS.Add(' result:=addr(VoidFunction);');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadVulkanLibrary(const LibraryName:string=VK_DEFAULT_LIB_NAME):boolean;');
+   OutputPAS.Add('function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;');
    OutputPAS.Add('begin');
-   OutputPAS.Add(' LibVulkan:=vkLoadLibrary(LibraryName);');
-   OutputPAS.Add(' result:=assigned(LibVulkan);');
+   OutputPAS.Add(' LibOpenXR:=vkLoadLibrary(LibraryName);');
+   OutputPAS.Add(' result:=assigned(LibOpenXR);');
    OutputPAS.Add(' if result then begin');
-   OutputPAS.Add('  vkGetInstanceProcAddr:=vkGetProcAddress(LibVulkan,''vkGetInstanceProcAddr'');');
+   OutputPAS.Add('  vkGetInstanceProcAddr:=vkGetProcAddress(LibOpenXR,''vkGetInstanceProcAddr'');');
    OutputPAS.Add('  @vk.fCommands.GetInstanceProcAddr:=addr(vkGetInstanceProcAddr);');
    OutputPAS.Add('  result:=assigned(vkGetInstanceProcAddr);');
    OutputPAS.Add('  if result then begin');
-   OutputPAS.Add('   vkEnumerateInstanceExtensionProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(VK_NULL_INSTANCE,PVkChar(''vkEnumerateInstanceExtensionProperties'')));');
+   OutputPAS.Add('   vkEnumerateInstanceExtensionProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkEnumerateInstanceExtensionProperties'')));');
    OutputPAS.Add('   @vk.fCommands.EnumerateInstanceExtensionProperties:=addr(vkEnumerateInstanceExtensionProperties);');
-   OutputPAS.Add('   vkEnumerateInstanceLayerProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(VK_NULL_INSTANCE,PVkChar(''vkEnumerateInstanceLayerProperties'')));');
+   OutputPAS.Add('   vkEnumerateInstanceLayerProperties:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkEnumerateInstanceLayerProperties'')));');
    OutputPAS.Add('   @vk.fCommands.EnumerateInstanceLayerProperties:=addr(vkEnumerateInstanceLayerProperties);');
-   OutputPAS.Add('   vkCreateInstance:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(VK_NULL_INSTANCE,PVkChar(''vkCreateInstance'')));');
+   OutputPAS.Add('   vkCreateInstance:=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar(''vkCreateInstance'')));');
    OutputPAS.Add('   @vk.fCommands.CreateInstance:=addr(vkCreateInstance);');
    OutputPAS.Add('   result:=assigned(vkEnumerateInstanceExtensionProperties) and');
    OutputPAS.Add('           assigned(vkEnumerateInstanceLayerProperties) and ');
@@ -5235,9 +5235,9 @@ begin
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadVulkanGlobalCommands:boolean;');
+   OutputPAS.Add('function LoadOpenXRGlobalCommands:boolean;');
    OutputPAS.Add('begin');
-// OutputPAS.Add(' FillChar(vk.fCommands,SizeOf(TVulkanCommands),#0);');
+// OutputPAS.Add(' FillChar(vk.fCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add(' result:=assigned(vkGetInstanceProcAddr);');
    OutputPAS.Add(' if result then begin');
    for i:=0 to AllCommands.Count-1 do begin
@@ -5251,8 +5251,8 @@ begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
     OutputPAS.Add('  if not assigned('+s+') then begin');
-    OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetProcAddress(LibVulkan,'''+s+'''));');
-//  OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(VK_NULL_INSTANCE,PVkChar('''+s+''')));');
+    OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetProcAddress(LibOpenXR,'''+s+'''));');
+//  OutputPAS.Add('   @'+s+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(XR_NULL_INSTANCE,PXrChar('''+s+''')));');
     OutputPAS.Add('   @vk.fCommands.'+copy(s,3,length(s)-2)+':=addr('+s+');');
     OutputPAS.Add('  end;');
     if length(s2)>0 then begin
@@ -5263,9 +5263,9 @@ begin
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadVulkanInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TVkInstance;out InstanceCommands:TVulkanCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TvkGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('begin');
-   OutputPAS.Add(' FillChar(InstanceCommands,SizeOf(TVulkanCommands),#0);');
+   OutputPAS.Add(' FillChar(InstanceCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add(' result:=assigned(GetInstanceProcAddr);');
    OutputPAS.Add(' if result then begin');
    for i:=0 to AllCommands.Count-1 do begin
@@ -5278,7 +5278,7 @@ begin
     if length(s2)>0 then begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
-    OutputPAS.Add('  @InstanceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(Instance,PVkChar('''+s+''')));');
+    OutputPAS.Add('  @InstanceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetInstanceProcAddr(Instance,PXrChar('''+s+''')));');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
@@ -5296,12 +5296,12 @@ begin
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadVulkanDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TVkDevice;out DeviceCommands:TVulkanCommands):boolean;');
+   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TvkGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('begin');
-   OutputPAS.Add(' FillChar(DeviceCommands,SizeOf(TVulkanCommands),#0);');
+   OutputPAS.Add(' FillChar(DeviceCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add(' result:=assigned(GetDeviceProcAddr);');
    OutputPAS.Add(' if result then begin');
-   OutputPAS.Add('  // Device commands of any Vulkan command whose first parameter is one of: vkDevice, VkQueue, VkCommandBuffer');
+   OutputPAS.Add('  // Device commands of any OpenXR command whose first parameter is one of: vkDevice, XrQueue, XrCommandBuffer');
    for i:=0 to AllDeviceCommands.Count-1 do begin
     s:=AllDeviceCommands.Strings[i];
     j:=pos('=',s);
@@ -5312,7 +5312,7 @@ begin
     if length(s2)>0 then begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
-    OutputPAS.Add('  @DeviceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetDeviceProcAddr(Device,PVkChar('''+s+''')));');
+    OutputPAS.Add('  @DeviceCommands.'+copy(s,3,length(s)-2)+':=vkVoidFunctionToPointer(vkGetDeviceProcAddr(Device,PXrChar('''+s+''')));');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
@@ -5327,33 +5327,33 @@ begin
     OutputPAS.Add('{$endif}');
     OutputPAS.Add('');
    end;
-   OutputPAS.Add('constructor TVulkan.Create;');
+   OutputPAS.Add('constructor TOpenXR.Create;');
    OutputPAS.Add('begin');
    OutputPAS.Add(' inherited Create;');
-   OutputPAS.Add(' FillChar(fCommands,SizeOf(TVulkanCommands),#0);');
+   OutputPAS.Add(' FillChar(fCommands,SizeOf(TOpenXRCommands),#0);');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('constructor TVulkan.Create(const AVulkanCommands:TVulkanCommands);');
+   OutputPAS.Add('constructor TOpenXR.Create(const AOpenXRCommands:TOpenXRCommands);');
    OutputPAS.Add('begin');
    OutputPAS.Add(' inherited Create;');
-   OutputPAS.Add(' fCommands:=AVulkanCommands;');
+   OutputPAS.Add(' fCommands:=AOpenXRCommands;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('destructor TVulkan.Destroy;');
+   OutputPAS.Add('destructor TOpenXR.Destroy;');
    OutputPAS.Add('begin');
    OutputPAS.Add(' inherited Destroy;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
    OutputPAS.AddStrings(AllCommandClassImplementations);
    OutputPAS.Add('initialization');
-   OutputPAS.Add(' vk:=TVulkan.Create;');
+   OutputPAS.Add(' vk:=TOpenXR.Create;');
    OutputPAS.Add('finalization');
    OutputPAS.Add(' vk.Free;');
-   OutputPAS.Add(' if assigned(LibVulkan) then begin');
-   OutputPAS.Add('  vkFreeLibrary(LibVulkan);');
+   OutputPAS.Add(' if assigned(LibOpenXR) then begin');
+   OutputPAS.Add('  vkFreeLibrary(LibOpenXR);');
    OutputPAS.Add(' end;');
    OutputPAS.Add('end.');
-   OutputPAS.SaveToFile('Vulkan.pas');
+   OutputPAS.SaveToFile('OpenXR.pas');
   finally
    OutputPAS.Free;
   end;
