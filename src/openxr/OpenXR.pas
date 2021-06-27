@@ -5034,9 +5034,13 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
      TxrGetVulkanGraphicsRequirements2KHR=function(instance:TXrInstance;systemId:TXrSystemId;graphicsRequirements:PXrGraphicsRequirementsVulkanKHR):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
+{$ifdef Android}
      TxrConvertTimeToTimespecTimeKHR=function(instance:TXrInstance;time:TXrTime;timespecTime:Ptimespec):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+{$endif}
 
+{$ifdef Android}
      TxrConvertTimespecTimeToTimeKHR=function(instance:TXrInstance;const timespecTime:Ptimespec;time:PXrTime):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+{$endif}
 
      TxrGetVisibilityMaskKHR=function(session:TXrSession;viewConfigurationType:TXrViewConfigurationType;viewIndex:TXrUInt32;visibilityMaskType:TXrVisibilityMaskTypeKHR;visibilityMask:PXrVisibilityMaskKHR):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
@@ -5300,9 +5304,13 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
       GetVulkanGraphicsRequirements2KHR:TxrGetVulkanGraphicsRequirements2KHR;
 
+{$ifdef Android}
       ConvertTimeToTimespecTimeKHR:TxrConvertTimeToTimespecTimeKHR;
+{$endif}
 
+{$ifdef Android}
       ConvertTimespecTimeToTimeKHR:TxrConvertTimespecTimeToTimeKHR;
+{$endif}
 
       GetVisibilityMaskKHR:TxrGetVisibilityMaskKHR;
 
@@ -5571,9 +5579,13 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
        function GetVulkanGraphicsRequirements2KHR(instance:TXrInstance;systemId:TXrSystemId;graphicsRequirements:PXrGraphicsRequirementsVulkanKHR):TXrResult; virtual;
 
+{$ifdef Android}
        function ConvertTimeToTimespecTimeKHR(instance:TXrInstance;time:TXrTime;timespecTime:Ptimespec):TXrResult; virtual;
+{$endif}
 
+{$ifdef Android}
        function ConvertTimespecTimeToTimeKHR(instance:TXrInstance;const timespecTime:Ptimespec;time:PXrTime):TXrResult; virtual;
+{$endif}
 
        function GetVisibilityMaskKHR(session:TXrSession;viewConfigurationType:TXrViewConfigurationType;viewIndex:TXrUInt32;visibilityMaskType:TXrVisibilityMaskTypeKHR;visibilityMask:PXrVisibilityMaskKHR):TXrResult; virtual;
 
@@ -5840,9 +5852,13 @@ var LibOpenXR:pointer=nil;
 
     xrGetVulkanGraphicsRequirements2KHR:TxrGetVulkanGraphicsRequirements2KHR=nil;
 
+{$ifdef Android}
     xrConvertTimeToTimespecTimeKHR:TxrConvertTimeToTimespecTimeKHR=nil;
+{$endif}
 
+{$ifdef Android}
     xrConvertTimespecTimeToTimeKHR:TxrConvertTimespecTimeToTimeKHR=nil;
+{$endif}
 
     xrGetVisibilityMaskKHR:TxrGetVisibilityMaskKHR=nil;
 
@@ -6374,14 +6390,18 @@ begin
    @xrGetVulkanGraphicsRequirements2KHR:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrGetVulkanGraphicsRequirements2KHR'));
    @xr.fCommands.GetVulkanGraphicsRequirements2KHR:=addr(xrGetVulkanGraphicsRequirements2KHR);
   end;
+{$ifdef Android}
   if not assigned(xrConvertTimeToTimespecTimeKHR) then begin
    @xrConvertTimeToTimespecTimeKHR:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrConvertTimeToTimespecTimeKHR'));
    @xr.fCommands.ConvertTimeToTimespecTimeKHR:=addr(xrConvertTimeToTimespecTimeKHR);
   end;
+{$endif}
+{$ifdef Android}
   if not assigned(xrConvertTimespecTimeToTimeKHR) then begin
    @xrConvertTimespecTimeToTimeKHR:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrConvertTimespecTimeToTimeKHR'));
    @xr.fCommands.ConvertTimespecTimeToTimeKHR:=addr(xrConvertTimespecTimeToTimeKHR);
   end;
+{$endif}
   if not assigned(xrGetVisibilityMaskKHR) then begin
    @xrGetVisibilityMaskKHR:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrGetVisibilityMaskKHR'));
    @xr.fCommands.GetVisibilityMaskKHR:=addr(xrGetVisibilityMaskKHR);
@@ -6659,8 +6679,12 @@ begin
   @InstanceCommands.CreateVulkanDeviceKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrCreateVulkanDeviceKHR')));
   @InstanceCommands.GetVulkanGraphicsDevice2KHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetVulkanGraphicsDevice2KHR')));
   @InstanceCommands.GetVulkanGraphicsRequirements2KHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetVulkanGraphicsRequirements2KHR')));
+{$ifdef Android}
   @InstanceCommands.ConvertTimeToTimespecTimeKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrConvertTimeToTimespecTimeKHR')));
+{$endif}
+{$ifdef Android}
   @InstanceCommands.ConvertTimespecTimeToTimeKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrConvertTimespecTimeToTimeKHR')));
+{$endif}
   @InstanceCommands.GetVisibilityMaskKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetVisibilityMaskKHR')));
   @InstanceCommands.CreateSpatialAnchorMSFT:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrCreateSpatialAnchorMSFT')));
   @InstanceCommands.CreateSpatialAnchorSpaceMSFT:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrCreateSpatialAnchorSpaceMSFT')));
@@ -9224,15 +9248,19 @@ begin
  result:=fCommands.GetVulkanGraphicsRequirements2KHR(instance,systemId,graphicsRequirements);
 end;
 
+{$ifdef Android}
 function TOpenXR.ConvertTimeToTimespecTimeKHR(instance:TXrInstance;time:TXrTime;timespecTime:Ptimespec):TXrResult;
 begin
  result:=fCommands.ConvertTimeToTimespecTimeKHR(instance,time,timespecTime);
 end;
+{$endif}
 
+{$ifdef Android}
 function TOpenXR.ConvertTimespecTimeToTimeKHR(instance:TXrInstance;const timespecTime:Ptimespec;time:PXrTime):TXrResult;
 begin
  result:=fCommands.ConvertTimespecTimeToTimeKHR(instance,timespecTime,time);
 end;
+{$endif}
 
 function TOpenXR.GetVisibilityMaskKHR(session:TXrSession;viewConfigurationType:TXrViewConfigurationType;viewIndex:TXrUInt32;visibilityMaskType:TXrVisibilityMaskTypeKHR;visibilityMask:PXrVisibilityMaskKHR):TXrResult;
 begin

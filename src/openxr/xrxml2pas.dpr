@@ -4582,6 +4582,9 @@ begin
          Parameters:=Parameters+ParamName;
          if (ParamType='HWND') or (ParamType='HMONITOR') or (ParamType='HINSTANCE') or (pos('Win32',ProtoName)>0) then begin
           Define:='Windows';
+         // not sure if 'android' only
+         end else if (ParamType='timespec')  then begin
+          Define:='Android';
          end else if ParamType='RROutput' then begin
           Define:='RandR';
          end else if (ParamType='Display') or (ParamType='VisualID') or (ParamType='Window') or (pos('Xlib',ParamType)>0) then begin
