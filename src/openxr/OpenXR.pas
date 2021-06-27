@@ -5971,7 +5971,6 @@ function xrVoidFunctionToPointer(const VoidFunction:TPFN_xrVoidFunction):pointer
 function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;
 function LoadOpenXRGlobalCommands:boolean;
 function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TxrGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;
-function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;
 
 implementation
 

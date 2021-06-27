@@ -5220,7 +5220,6 @@ begin
    OutputPAS.Add('function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean;');
    OutputPAS.Add('function LoadOpenXRGlobalCommands:boolean;');
    OutputPAS.Add('function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TxrGetInstanceProcAddr;const Instance:TXrInstance;out InstanceCommands:TOpenXRCommands):boolean;');
-   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
    OutputPAS.Add('');
    OutputPAS.Add('implementation');
    OutputPAS.Add('');
