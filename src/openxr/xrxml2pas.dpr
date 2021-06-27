@@ -4533,6 +4533,9 @@ begin
          end else begin
           ProtoName:=ParseText(ChildChildTag.FindTag('name'),['']);
          end;
+         if pos('Android',ProtoName)>0 then begin
+           define := 'Android';
+         end;
          ProtoType:=ParseText(ChildChildTag.FindTag('type'),['']);
          ProtoPtr:=0;
          Text:=ParseText(ChildChildTag,['']);

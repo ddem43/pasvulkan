@@ -4952,7 +4952,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      TxrSetAndroidApplicationThreadKHR=function(session:TXrSession;threadType:TXrAndroidThreadTypeKHR;threadId:TXrUInt32):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 {$endif}
 
+{$ifdef Android}
      TxrCreateSwapchainAndroidSurfaceKHR=function(session:TXrSession;const info:PXrSwapchainCreateInfo;swapchain:PXrSwapchain;surface:Pjobject):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+{$endif}
 
      TxrGetActionStateBoolean=function(session:TXrSession;const getInfo:PXrActionStateGetInfo;state:PXrActionStateBoolean):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
@@ -5216,7 +5218,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
       SetAndroidApplicationThreadKHR:TxrSetAndroidApplicationThreadKHR;
 {$endif}
 
+{$ifdef Android}
       CreateSwapchainAndroidSurfaceKHR:TxrCreateSwapchainAndroidSurfaceKHR;
+{$endif}
 
       GetActionStateBoolean:TxrGetActionStateBoolean;
 
@@ -5485,7 +5489,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
        function SetAndroidApplicationThreadKHR(session:TXrSession;threadType:TXrAndroidThreadTypeKHR;threadId:TXrUInt32):TXrResult; virtual;
 {$endif}
 
+{$ifdef Android}
        function CreateSwapchainAndroidSurfaceKHR(session:TXrSession;const info:PXrSwapchainCreateInfo;swapchain:PXrSwapchain;surface:Pjobject):TXrResult; virtual;
+{$endif}
 
        function GetActionStateBoolean(session:TXrSession;const getInfo:PXrActionStateGetInfo;state:PXrActionStateBoolean):TXrResult; virtual;
 
@@ -5752,7 +5758,9 @@ var LibOpenXR:pointer=nil;
     xrSetAndroidApplicationThreadKHR:TxrSetAndroidApplicationThreadKHR=nil;
 {$endif}
 
+{$ifdef Android}
     xrCreateSwapchainAndroidSurfaceKHR:TxrCreateSwapchainAndroidSurfaceKHR=nil;
+{$endif}
 
     xrGetActionStateBoolean:TxrGetActionStateBoolean=nil;
 
@@ -6208,10 +6216,12 @@ begin
    @xr.fCommands.SetAndroidApplicationThreadKHR:=addr(xrSetAndroidApplicationThreadKHR);
   end;
 {$endif}
+{$ifdef Android}
   if not assigned(xrCreateSwapchainAndroidSurfaceKHR) then begin
    @xrCreateSwapchainAndroidSurfaceKHR:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrCreateSwapchainAndroidSurfaceKHR'));
    @xr.fCommands.CreateSwapchainAndroidSurfaceKHR:=addr(xrCreateSwapchainAndroidSurfaceKHR);
   end;
+{$endif}
   if not assigned(xrGetActionStateBoolean) then begin
    @xrGetActionStateBoolean:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrGetActionStateBoolean'));
    @xr.fCommands.GetActionStateBoolean:=addr(xrGetActionStateBoolean);
@@ -6605,7 +6615,9 @@ begin
 {$ifdef Android}
   @InstanceCommands.SetAndroidApplicationThreadKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrSetAndroidApplicationThreadKHR')));
 {$endif}
+{$ifdef Android}
   @InstanceCommands.CreateSwapchainAndroidSurfaceKHR:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrCreateSwapchainAndroidSurfaceKHR')));
+{$endif}
   @InstanceCommands.GetActionStateBoolean:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetActionStateBoolean')));
   @InstanceCommands.GetActionStateFloat:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetActionStateFloat')));
   @InstanceCommands.GetActionStateVector2f:=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('xrGetActionStateVector2f')));
@@ -9016,10 +9028,12 @@ begin
 end;
 {$endif}
 
+{$ifdef Android}
 function TOpenXR.CreateSwapchainAndroidSurfaceKHR(session:TXrSession;const info:PXrSwapchainCreateInfo;swapchain:PXrSwapchain;surface:Pjobject):TXrResult;
 begin
  result:=fCommands.CreateSwapchainAndroidSurfaceKHR(session,info,swapchain,surface);
 end;
+{$endif}
 
 function TOpenXR.GetActionStateBoolean(session:TXrSession;const getInfo:PXrActionStateGetInfo;state:PXrActionStateBoolean):TXrResult;
 begin
