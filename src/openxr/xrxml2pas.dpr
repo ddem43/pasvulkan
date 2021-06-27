@@ -21,6 +21,21 @@
  * 3. This notice may not be removed or altered from any source distribution. *
  *                                                                            *
  ******************************************************************************)
+
+ // this code is an adapted copy of vkxml2pas with tweaks to make it works
+ // with xr.xml
+ //
+ // this project is conducted with delphi 10.4.2 so maybe there is problems
+ // with other compilers/configurations.
+ //
+ // Warning : at this point, the resulting unit was not tested at all
+ // so USE AT YOUR OWN RISK (as already stated above).
+ //
+ // some cleaning is needed to remove vk only names here
+ // then, some tests are required to see if we can get something working from
+ // the resulting unit
+
+
 program xrxml2pas;
 {$ifdef fpc}
  {$mode delphi}
