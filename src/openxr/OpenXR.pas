@@ -129,6 +129,10 @@ type PPXrInt8=^PXrInt8;
      PXrChar=PAnsiChar;
      TXrChar=AnsiChar;
 
+     PPXrWideChar=^PXrWideChar;
+     PXrWideChar=PWideChar;
+     TXrWideChar=WideChar;
+
      PPXrPointer=^PXrPointer;
      PXrPointer=^TXrPointer;
      TXrPointer=Pointer;
@@ -5130,9 +5134,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
      TxrEnumerateReprojectionModesMSFT=function(instance:TXrInstance;systemId:TXrSystemId;viewConfigurationType:TXrViewConfigurationType;modeCapacityInput:TXrUInt32;modeCountOutput:PXrUInt32;modes:PXrReprojectionModeMSFT):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
-     TxrGetAudioOutputDeviceGuidOculus=function(instance:TXrInstance;buffer:Twchar_t):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrGetAudioOutputDeviceGuidOculus=function(instance:TXrInstance;buffer:TXrWidechar):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
-     TxrGetAudioInputDeviceGuidOculus=function(instance:TXrInstance;buffer:Twchar_t):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrGetAudioInputDeviceGuidOculus=function(instance:TXrInstance;buffer:TXrWidechar):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
 
      PPOpenXRCommands=^POpenXRCommands;
@@ -5675,9 +5679,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
        function EnumerateReprojectionModesMSFT(instance:TXrInstance;systemId:TXrSystemId;viewConfigurationType:TXrViewConfigurationType;modeCapacityInput:TXrUInt32;modeCountOutput:PXrUInt32;modes:PXrReprojectionModeMSFT):TXrResult; virtual;
 
-       function GetAudioOutputDeviceGuidOculus(instance:TXrInstance;buffer:Twchar_t):TXrResult; virtual;
+       function GetAudioOutputDeviceGuidOculus(instance:TXrInstance;buffer:TXrWidechar):TXrResult; virtual;
 
-       function GetAudioInputDeviceGuidOculus(instance:TXrInstance;buffer:Twchar_t):TXrResult; virtual;
+       function GetAudioInputDeviceGuidOculus(instance:TXrInstance;buffer:TXrWidechar):TXrResult; virtual;
 
        property Commands:TOpenXRCommands read fCommands;
      end;
@@ -9479,12 +9483,12 @@ begin
  result:=fCommands.EnumerateReprojectionModesMSFT(instance,systemId,viewConfigurationType,modeCapacityInput,modeCountOutput,modes);
 end;
 
-function TOpenXR.GetAudioOutputDeviceGuidOculus(instance:TXrInstance;buffer:Twchar_t):TXrResult;
+function TOpenXR.GetAudioOutputDeviceGuidOculus(instance:TXrInstance;buffer:TXrWidechar):TXrResult;
 begin
  result:=fCommands.GetAudioOutputDeviceGuidOculus(instance,buffer);
 end;
 
-function TOpenXR.GetAudioInputDeviceGuidOculus(instance:TXrInstance;buffer:Twchar_t):TXrResult;
+function TOpenXR.GetAudioInputDeviceGuidOculus(instance:TXrInstance;buffer:TXrWidechar):TXrResult;
 begin
  result:=fCommands.GetAudioInputDeviceGuidOculus(instance,buffer);
 end;

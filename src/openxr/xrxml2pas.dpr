@@ -3103,6 +3103,8 @@ begin
     result:='TXrUInt64';
    end else if Type_='size_t' then begin
     result:='TXrSize';
+   end else if Type_='wchar_t' then begin
+    result:='TXrWidechar';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='TXrAtom';
    end else if Type_='HDC' then begin
@@ -4976,6 +4978,12 @@ begin
    OutputPAS.Add('     PXrChar=PAnsiChar;');
    OutputPAS.Add('     TXrChar=AnsiChar;');
    OutputPAS.Add('');
+   OutputPAS.Add('     PPXrWideChar=^PXrWideChar;');
+   OutputPAS.Add('     PXrWideChar=PWideChar;');
+   OutputPAS.Add('     TXrWideChar=WideChar;');
+   OutputPAS.Add('');
+
+
    OutputPAS.Add('     PPXrPointer=^PXrPointer;');
    OutputPAS.Add('     PXrPointer=^TXrPointer;');
    OutputPAS.Add('     TXrPointer=Pointer;');
