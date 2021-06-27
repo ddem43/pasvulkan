@@ -91,7 +91,7 @@ uses {$if defined(Windows)}
      {$if defined(DirectFB) and defined(OpenXRUseDirectFBUnits)}DirectFB,{$ifend}
      SysUtils;
 
-const XR_DEFAULT_LIB_NAME={$ifdef Windows}'openxr-1.dll'{$else}{$ifdef Android}'libopenxr.so'{$else}{$ifdef Unix}'libopenxr.so.1'{$else}'libopenxr'{$endif}{$endif}{$endif};
+const XR_DEFAULT_LIB_NAME={$ifdef Windows}'openxr_loader.dll'{$else}{$ifdef Android}'openxr_loader.so'{$else}{$ifdef Unix}'openxr_loader.so.1'{$else}'openxr_loader'{$endif}{$endif}{$endif};
 
 type PPXrInt8=^PXrInt8;
      PXrInt8=^TXrInt8;

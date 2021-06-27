@@ -4967,7 +4967,7 @@ begin
    OutputPAS.Add('     {$if defined(DirectFB) and defined(OpenXRUseDirectFBUnits)}DirectFB,{$ifend}');
    OutputPAS.Add('     SysUtils;');
    OutputPAS.Add('');
-   OutputPAS.Add('const XR_DEFAULT_LIB_NAME={$ifdef Windows}''openxr-1.dll''{$else}{$ifdef Android}''libopenxr.so''{$else}{$ifdef Unix}''libopenxr.so.1''{$else}''libopenxr''{$endif}{$endif}{$endif};');
+   OutputPAS.Add('const XR_DEFAULT_LIB_NAME={$ifdef Windows}''openxr_loader.dll''{$else}{$ifdef Android}''openxr_loader.so''{$else}{$ifdef Unix}''openxr_loader.so.1''{$else}''openxr_loader''{$endif}{$endif}{$endif};');
    OutputPAS.Add('');
    OutputPAS.Add('type PPXrInt8=^PXrInt8;');
    OutputPAS.Add('     PXrInt8=^TXrInt8;');
