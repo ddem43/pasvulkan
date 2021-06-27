@@ -165,6 +165,29 @@ type qword=int64;
 {$endif}
 {$endif}
 
+//https://stackoverflow.com/questions/35158485/how-to-remove-repeated-spaces-from-a-string
+function DeleteRepeatedSpaces(const OldText: string): string;
+var
+  pO,pR: PChar;
+begin
+  SetLength(Result,Length(OldText));
+  pR := Pointer(Result);
+  pO := Pointer(OldText);
+  while (pO^ <> '') do begin
+    pR^ := pO^;
+    Inc(pR);
+    if (pO^ <> ' ') then begin
+      Inc(pO);
+      Continue;
+    end;
+    repeat // Skip additional spaces
+      Inc(pO);
+    until (pO^ = '') or (pO^ <> ' ');
+  end;
+  SetLength(Result,pR-Pointer(Result));
+end;
+
+
 function UTF32CharToUTF8(CharValue:longword):ansistring;
 var Data:array[0..{$ifdef strictutf8}3{$else}5{$endif}] of ansichar;
     ResultLen:longint;
@@ -4363,6 +4386,10 @@ begin
      ValueItem:=@ValueItems[i];
      ENumValues.Add(ValueItem^.Name+ENumValues.NameValueSeparator+ValueItem^.ValueStr);
      if length(ValueItem^.Comment)>0 then begin
+      ValueItem^.Comment := DeleteRepeatedSpaces(ValueItem^.Comment);
+      // CRLF added in comment ?
+      ValueItem^.Comment := stringreplace( ValueItem^.Comment, #13#10, '',[rfReplaceAll]);
+
       if (i+1)<CountValueItems then begin
        ENumTypes.Add(AlignPaddingString('       '+ValueItem^.Name+'='+ValueItem^.ValueStr+',',CommentPadding)+' //< '+ValueItem^.Comment);
       end else begin

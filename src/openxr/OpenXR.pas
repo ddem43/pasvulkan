@@ -1134,17 +1134,10 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrPerfSettingsLevelEXT=^TXrPerfSettingsLevelEXT;
      TXrPerfSettingsLevelEXT=
       (
-       XR_PERF_SETTINGS_LEVEL_POWER_SAVINGS_EXT=0,                               //< Performance settings hint used by the application to indicate that it enters a non-XR
-                 section (head-locked / static screen), during which power savings are to be prioritized
-       XR_PERF_SETTINGS_LEVEL_SUSTAINED_LOW_EXT=25,                              //< Performance settings hint used by the application to indicate that it enters a low
-                 and stable complexity section, during which reducing power is more important than
-                 occasional late rendering frames
-       XR_PERF_SETTINGS_LEVEL_SUSTAINED_HIGH_EXT=50,                             //< Performance settings hint used by the application to indicate that it enters
-                 a high or dynamic complexity section, during which the XR Runtime strives for consistent
-                 XR compositing and frame rendering within a thermally sustainable range
-       XR_PERF_SETTINGS_LEVEL_BOOST_EXT=75                                       //< Performance settings hint used by the application to indicate that the application enters
-                 a section with very high complexity, during which the XR Runtime is allowed to step
-                 up beyond the thermally sustainable range
+       XR_PERF_SETTINGS_LEVEL_POWER_SAVINGS_EXT=0,                               //< Performance settings hint used by the application to indicate that it enters a non-XR section (head-locked / static screen), during which power savings are to be prioritized
+       XR_PERF_SETTINGS_LEVEL_SUSTAINED_LOW_EXT=25,                              //< Performance settings hint used by the application to indicate that it enters a low and stable complexity section, during which reducing power is more important than occasional late rendering frames
+       XR_PERF_SETTINGS_LEVEL_SUSTAINED_HIGH_EXT=50,                             //< Performance settings hint used by the application to indicate that it enters a high or dynamic complexity section, during which the XR Runtime strives for consistent XR compositing and frame rendering within a thermally sustainable range
+       XR_PERF_SETTINGS_LEVEL_BOOST_EXT=75                                       //< Performance settings hint used by the application to indicate that the application enters a section with very high complexity, during which the XR Runtime is allowed to step up beyond the thermally sustainable range
       );
 
      PPXrPerfSettingsDomainEXT=^PXrPerfSettingsDomainEXT;
@@ -1168,14 +1161,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrPerfSettingsNotificationLevelEXT=^TXrPerfSettingsNotificationLevelEXT;
      TXrPerfSettingsNotificationLevelEXT=
       (
-       XR_PERF_SETTINGS_NOTIF_LEVEL_NORMAL_EXT=0,                                //< Notifies that the sub-domain has reached a level
-                 where no further actions other than currently applied are necessary
-       XR_PERF_SETTINGS_NOTIF_LEVEL_WARNING_EXT=25,                              //< Notifies that the sub-domain has reached an early warning level
-                 where the application should start proactive mitigation actions
-                 with the goal to return to the ename:XR_PERF_NOTIF_LEVEL_NORMAL level
-       XR_PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED_EXT=75                              //< Notifies that the sub-domain has reached a critical
-                 level with significant performance degradation.
-                 The application should take drastic mitigation action
+       XR_PERF_SETTINGS_NOTIF_LEVEL_NORMAL_EXT=0,                                //< Notifies that the sub-domain has reached a level where no further actions other than currently applied are necessary
+       XR_PERF_SETTINGS_NOTIF_LEVEL_WARNING_EXT=25,                              //< Notifies that the sub-domain has reached an early warning level where the application should start proactive mitigation actions with the goal to return to the ename:XR_PERF_NOTIF_LEVEL_NORMAL level
+       XR_PERF_SETTINGS_NOTIF_LEVEL_IMPAIRED_EXT=75                              //< Notifies that the sub-domain has reached a critical level with significant performance degradation. The application should take drastic mitigation action
       );
 
      PPXrVisibilityMaskTypeKHR=^PXrVisibilityMaskTypeKHR;
