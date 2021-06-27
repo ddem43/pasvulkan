@@ -5163,7 +5163,7 @@ begin
    OutputPAS.Add('');
    OutputPAS.Add('type PPXrDispatchableHandle=^PXrDispatchableHandle;');
    OutputPAS.Add('     PXrDispatchableHandle=^TXrDispatchableHandle;');
-   OutputPAS.Add('     TXrDispatchableHandle=TXrPtrInt;');
+   OutputPAS.Add('     TXrDispatchableHandle=TXrUInt64;');
    OutputPAS.Add('');
    OutputPAS.Add('     PPXrNonDispatchableHandle=^PXrNonDispatchableHandle;');
    OutputPAS.Add('     PXrNonDispatchableHandle=^TXrNonDispatchableHandle;');

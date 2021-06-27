@@ -633,7 +633,7 @@ const XR_NULL_HANDLE=0;
 
 type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrDispatchableHandle=^TXrDispatchableHandle;
-     TXrDispatchableHandle=TXrPtrInt;
+     TXrDispatchableHandle=TXrUInt64;
 
      PPXrNonDispatchableHandle=^PXrNonDispatchableHandle;
      PXrNonDispatchableHandle=^TXrNonDispatchableHandle;
