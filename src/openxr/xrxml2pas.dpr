@@ -4060,16 +4060,39 @@ begin
         end;
         if (TypeDefinition^.Name<>'XrBaseInStructure') and
            (TypeDefinition^.Name<>'XrBaseOutStructure') and
-           (TypeDefinition^.Name<>'XrSubpassEndInfoKHR') then begin
+           (TypeDefinition^.Name<>'XrSwapchainImageBaseHeader') and
+           (TypeDefinition^.Name<>'XrSwapchainImageAcquireInfo') and
+           (TypeDefinition^.Name<>'XrSwapchainImageReleaseInfo') and
+           (TypeDefinition^.Name<>'XrFrameBeginInfo') and
+           (TypeDefinition^.Name<>'XrFrameWaitInfo') and
+           (TypeDefinition^.Name<>'XrHapticBaseHeader') and
+           (TypeDefinition^.Name<>'XrEventDataBaseHeader') and
+           (TypeDefinition^.Name<>'XrBindingModificationBaseHeaderKHR') and
+           (TypeDefinition^.Name<>'XrSwapchainStateBaseHeaderFB') and
+           (TypeDefinition^.Name<>'XrLoaderInitInfoBaseHeaderKHR') and
+           (TypeDefinition^.Name<>'XrSceneObserverCreateInfoMSFT') and
+           (TypeDefinition^.Name<>'XrSceneCreateInfoMSFT') and
+           (TypeDefinition^.Name<>'XrSceneMeshBuffersMSFT') then begin
          RecordConstructorCodeStringList.Add(CodeParameterLine);
          RecordConstructorStringList.Add(ParameterLine);
         end;
        end;
-      end;  
+      end;
       if (TypeDefinition^.Name<>'XrBaseInStructure') and
          (TypeDefinition^.Name<>'XrBaseOutStructure') and
-         (TypeDefinition^.Name<>'XrSubpassEndInfoKHR') and
-         (TypeDefinition^.Name<>'XrSubpassEndInfo') then begin
+         (TypeDefinition^.Name<>'XrSwapchainImageBaseHeader') and
+         (TypeDefinition^.Name<>'XrSwapchainImageAcquireInfo') and
+         (TypeDefinition^.Name<>'XrSwapchainImageReleaseInfo') and
+         (TypeDefinition^.Name<>'XrFrameBeginInfo') and
+         (TypeDefinition^.Name<>'XrFrameWaitInfo') and
+         (TypeDefinition^.Name<>'XrHapticBaseHeader') and
+         (TypeDefinition^.Name<>'XrEventDataBaseHeader') and
+         (TypeDefinition^.Name<>'XrBindingModificationBaseHeaderKHR') and
+         (TypeDefinition^.Name<>'XrSwapchainStateBaseHeaderFB') and
+         (TypeDefinition^.Name<>'XrLoaderInitInfoBaseHeaderKHR') and
+         (TypeDefinition^.Name<>'XrSceneObserverCreateInfoMSFT') and
+         (TypeDefinition^.Name<>'XrSceneCreateInfoMSFT') and
+         (TypeDefinition^.Name<>'XrSceneMeshBuffersMSFT') then begin
        if HasArray then begin
         RecordConstructorCodeStringList.Add('var ArrayItemCount:TXrInt32;');
        end;

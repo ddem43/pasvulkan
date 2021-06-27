@@ -7137,11 +7137,6 @@ begin
  mipCount:=aMipCount;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrSwapchainImageOpenGLKHR.Create(const aImage:TXrUInt32);
 begin
  type_:=TXrStructureType(TXrInt32(0));
@@ -7177,21 +7172,11 @@ begin
  texture:=aTexture;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrSwapchainImageWaitInfo.Create(const aTimeout:TXrDuration);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
  timeout:=aTimeout;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
 end;
 
 constructor TXrReferenceSpaceCreateInfo.Create(const aReferenceSpaceType:TXrReferenceSpaceType;
@@ -7422,11 +7407,6 @@ begin
  farZ:=aFarZ;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrFrameEndInfo.Create(const aDisplayTime:TXrTime;
                                    const aEnvironmentBlendMode:TXrEnvironmentBlendMode;
                                    const aLayerCount:TXrUInt32;
@@ -7440,11 +7420,6 @@ begin
  layers:=aLayers;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrFrameState.Create(const aPredictedDisplayTime:TXrTime;
                                  const aPredictedDisplayPeriod:TXrDuration;
                                  const aShouldRender:TXrBool32);
@@ -7456,11 +7431,6 @@ begin
  shouldRender:=aShouldRender;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrHapticVibration.Create(const aDuration:TXrDuration;
                                       const aFrequency:TXrFloat;
                                       const aAmplitude:TXrFloat);
@@ -7470,11 +7440,6 @@ begin
  duration:=aDuration;
  frequency:=aFrequency;
  amplitude:=aAmplitude;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
 end;
 
 constructor TXrEventDataBuffer.Create(const aVarying:array of TXrUInt8);
@@ -7982,11 +7947,6 @@ begin
  offHaptic:=aOffHaptic;
 end;
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 constructor TXrBindingModificationsKHR.Create(const aBindingModificationCount:TXrUInt32;
                                               const aBindingModifications:PPXrBindingModificationBaseHeaderKHR);
 begin
@@ -8301,11 +8261,6 @@ begin
 end;
 {$endif}
 
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
 {$ifdef Android}
 constructor TXrSwapchainStateAndroidSurfaceDimensionsFB.Create(const aWidth:TXrUInt32;
                                                                const aHeight:TXrUInt32);
@@ -8369,11 +8324,6 @@ begin
  swizzleAlpha:=aSwizzleAlpha;
  maxAnisotropy:=aMaxAnisotropy;
  borderColor:=aBorderColor;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
 end;
 
 {$ifdef Android}
@@ -8489,16 +8439,6 @@ begin
  if ArrayItemCount>0 then begin
   Move(aBytes[0],bytes[0],ArrayItemCount*SizeOf(TXrUInt8));
  end;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
 end;
 
 constructor TXrSceneSphereBoundMSFT.Create(const aCenter:TXrVector3f;
@@ -8701,11 +8641,6 @@ begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
  meshBufferId:=aMeshBufferId;
-end;
-
-begin
- type_:=TXrStructureType(TXrInt32(0));
- next:=nil;
 end;
 
 constructor TXrSceneMeshVertexBufferMSFT.Create(const aVertexCapacityInput:TXrUInt32;
