@@ -76,6 +76,9 @@ interface
 
 uses {$if defined(Windows)}
       Windows,
+      Winapi.D3DCommon,
+      Winapi.D3D11,
+      Winapi.D3D12,
      {$elseif defined(Unix)}
       BaseUnix,UnixType,dl,
      {$ifend}
@@ -1952,9 +1955,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       device:PID3D11Device;
+       device:ID3D11Device;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aDevice:PID3D11Device);
+       constructor Create(const aDevice:ID3D11Device);
 {$endif}
      end;
 
@@ -1966,11 +1969,11 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       device:PID3D12Device;
-       queue:PID3D12CommandQueue;
+       device:ID3D12Device;
+       queue:ID3D12CommandQueue;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aDevice:PID3D12Device;
-                          const aQueue:PID3D12CommandQueue);
+       constructor Create(const aDevice:ID3D12Device;
+                          const aQueue:ID3D12CommandQueue);
 {$endif}
      end;
 
@@ -2138,9 +2141,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       texture:PID3D11Texture2D;
+       texture:ID3D11Texture2D;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aTexture:PID3D11Texture2D);
+       constructor Create(const aTexture:ID3D11Texture2D);
 {$endif}
      end;
 
@@ -2152,9 +2155,9 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       texture:PID3D12Resource;
+       texture:ID3D12Resource;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aTexture:PID3D12Resource);
+       constructor Create(const aTexture:ID3D12Resource);
 {$endif}
      end;
 
@@ -7011,15 +7014,15 @@ begin
 end;
 {$endif}
 
-constructor TXrGraphicsBindingD3D11KHR.Create(const aDevice:PID3D11Device);
+constructor TXrGraphicsBindingD3D11KHR.Create(const aDevice:ID3D11Device);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
  device:=aDevice;
 end;
 
-constructor TXrGraphicsBindingD3D12KHR.Create(const aDevice:PID3D12Device;
-                                              const aQueue:PID3D12CommandQueue);
+constructor TXrGraphicsBindingD3D12KHR.Create(const aDevice:ID3D12Device;
+                                              const aQueue:ID3D12CommandQueue);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
@@ -7120,14 +7123,14 @@ begin
  image:=aImage;
 end;
 
-constructor TXrSwapchainImageD3D11KHR.Create(const aTexture:PID3D11Texture2D);
+constructor TXrSwapchainImageD3D11KHR.Create(const aTexture:ID3D11Texture2D);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
  texture:=aTexture;
 end;
 
-constructor TXrSwapchainImageD3D12KHR.Create(const aTexture:PID3D12Resource);
+constructor TXrSwapchainImageD3D12KHR.Create(const aTexture:ID3D12Resource);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;

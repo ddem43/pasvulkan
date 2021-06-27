@@ -2930,6 +2930,16 @@ begin
     result:='PXrNonDispatchableHandle';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='PXrAtom';
+   end else if Type_='ID3D11Device' then begin
+    result:='ID3D11Device';
+   end else if Type_='ID3D12Device' then begin
+    result:='ID3D12Device';
+   end else if Type_='ID3D12CommandQueue' then begin
+    result:='ID3D12CommandQueue';
+   end else if Type_='ID3D11Texture2D' then begin
+    result:='ID3D11Texture2D';
+   end else if Type_='ID3D12Resource' then begin
+    result:='ID3D12Resource';
    end else if Type_='HINSTANCE' then begin
     result:='PXrHINSTANCE';
    end else if Type_='HWND' then begin
@@ -4889,6 +4899,9 @@ begin
    OutputPAS.Add('');
    OutputPAS.Add('uses {$if defined(Windows)}');
    OutputPAS.Add('      Windows,');
+   OutputPAS.Add('      Winapi.D3DCommon,');
+   OutputPAS.Add('      Winapi.D3D11,');
+   OutputPAS.Add('      Winapi.D3D12,');
    OutputPAS.Add('     {$elseif defined(Unix)}');
    OutputPAS.Add('      BaseUnix,UnixType,dl,');
    OutputPAS.Add('     {$ifend}');
