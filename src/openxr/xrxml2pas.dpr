@@ -2890,7 +2890,6 @@ var Comment:ansistring;
     CommandVariables:TStringList;
     AllCommandType:TStringList;
     AllCommands:TStringList;
-    AllDeviceCommands:TStringList;
     AllCommandClassDefinitions:TStringList;
     AllCommandClassImplementations:TStringList;
 
@@ -4474,7 +4473,6 @@ var i,j,k,ArraySize,CountTypeDefinitions:longint;
     ChildTag,ChildChildTag:TXMLTag;
     ProtoName,ProtoType,ParamName,ParamType,Text,Line,Parameters,Define,Alias,AliasName:ansistring;
     ProtoPtr,ParamPtr:longint;
-    IsDeviceCommand:boolean;
     ValidityStringList:TStringList;
 begin
  AllCommandType.Add('     PPOpenXRCommands=^POpenXRCommands;');
@@ -4525,7 +4523,6 @@ begin
       ParamName:='';
       ParamType:='';
       ParamPtr:=0;
-      IsDeviceCommand:=false;
       Line:='';
       Parameters:='';
       Define:='';
@@ -4562,10 +4559,6 @@ begin
          end;
          if length(Line)>0 then begin
           Line:=Line+';';
-         end else begin
-          if (ParamType='XrDevice') or (ParamType='XrQueue') or (ParamType='XrCommandBuffer') then begin
-           IsDeviceCommand:=true;
-          end;
          end;
          if ParamName='type' then begin
           ParamName:='type_';
@@ -4654,9 +4647,6 @@ begin
        AllCommandClassImplementations.Add('end;');
       end;
       AllCommands.Add(ProtoName+'='+Define);
-      if IsDeviceCommand then begin
-       AllDeviceCommands.Add(ProtoName+'='+Define);
-      end;
       if length(Define)>0 then begin
        CommandTypes.Add('{$endif}');
        CommandVariables.Add('{$endif}');
@@ -4789,7 +4779,6 @@ begin
  AllCommands:=TStringList.Create;
  AllCommandClassDefinitions:=TStringList.Create;
  AllCommandClassImplementations:=TStringList.Create;
- AllDeviceCommands:=TStringList.Create;
 
  InitializeEntites;
  try
@@ -5375,31 +5364,6 @@ begin
    OutputPAS.Add(' end;');
    OutputPAS.Add('end;');
    OutputPAS.Add('');
-   OutputPAS.Add('function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;');
-   OutputPAS.Add('begin');
-   OutputPAS.Add(' FillChar(DeviceCommands,SizeOf(TOpenXRCommands),#0);');
-   OutputPAS.Add(' result:=assigned(GetDeviceProcAddr);');
-   OutputPAS.Add(' if result then begin');
-   OutputPAS.Add('  // Device commands of any OpenXR command whose first parameter is one of: xrDevice, XrQueue, XrCommandBuffer');
-   for i:=0 to AllDeviceCommands.Count-1 do begin
-    s:=AllDeviceCommands.Strings[i];
-    j:=pos('=',s);
-    if j>0 then begin
-     s2:=copy(s,j+1,length(s)-j);
-     s:=copy(s,1,j-1);
-    end;
-    if length(s2)>0 then begin
-     OutputPAS.Add('{$ifdef '+s2+'}');
-    end;
-    OutputPAS.Add('  @DeviceCommands.'+copy(s,3,length(s)-2)+':=xrVoidFunctionToPointer(xrGetDeviceProcAddr(Device,PXrChar('''+s+''')));');
-    if length(s2)>0 then begin
-     OutputPAS.Add('{$endif}');
-    end;
-   end;
-   OutputPAS.Add('  result:=assigned(DeviceCommands.DestroyDevice);');
-   OutputPAS.Add(' end;');
-   OutputPAS.Add('end;');
-   OutputPAS.Add('');
    if TypeDefinitionConstructors.Count>0 then begin
     OutputPAS.Add('{$ifdef HAS_ADVANCED_RECORDS}');
     OutputPAS.AddStrings(TypeDefinitionConstructors);
@@ -5462,7 +5426,6 @@ begin
   AllCommands.Free;
   AllCommandClassDefinitions.Free;
   AllCommandClassImplementations.Free;
-  AllDeviceCommands.Free;
  end;
 
  readln;

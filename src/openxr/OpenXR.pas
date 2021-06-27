@@ -6750,16 +6750,6 @@ begin
  end;
 end;
 
-function LoadOpenXRDeviceCommands(const GetDeviceProcAddr:TxrGetDeviceProcAddr;const Device:TXrDevice;out DeviceCommands:TOpenXRCommands):boolean;
-begin
- FillChar(DeviceCommands,SizeOf(TOpenXRCommands),#0);
- result:=assigned(GetDeviceProcAddr);
- if result then begin
-  // Device commands of any OpenXR command whose first parameter is one of: xrDevice, XrQueue, XrCommandBuffer
-  result:=assigned(DeviceCommands.DestroyDevice);
- end;
-end;
-
 {$ifdef HAS_ADVANCED_RECORDS}
 constructor TXrVector2f.Create(const aX:TXrFloat;
                                const aY:TXrFloat);
