@@ -5321,6 +5321,10 @@ begin
    OutputPAS.Add('begin');
    OutputPAS.Add(' LibOpenXR:=xrLoadLibrary(LibraryName);');
    OutputPAS.Add(' result:=assigned(LibOpenXR);');
+   OutputPAS.Add(' if result then begin');
+   OutputPAS.Add('   @xrGetInstanceProcAddr:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,''xrGetInstanceProcAddr''));');
+   OutputPAS.Add('   @xr.fCommands.GetInstanceProcAddr:=addr(xrGetInstanceProcAddr);');
+   OutputPAS.Add(' end;');
    OutputPAS.Add(' (*');
    OutputPAS.Add(' if result then begin');
    OutputPAS.Add('  xrGetInstanceProcAddr:=xrGetProcAddress(LibOpenXR,''xrGetInstanceProcAddr'');');

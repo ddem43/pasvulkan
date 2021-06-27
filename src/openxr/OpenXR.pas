@@ -6045,6 +6045,10 @@ function LoadOpenXRLibrary(const LibraryName:string=XR_DEFAULT_LIB_NAME):boolean
 begin
  LibOpenXR:=xrLoadLibrary(LibraryName);
  result:=assigned(LibOpenXR);
+ if result then begin
+   @xrGetInstanceProcAddr:=xrVoidFunctionToPointer(xrGetProcAddress(LibOpenXR,'xrGetInstanceProcAddr'));
+   @xr.fCommands.GetInstanceProcAddr:=addr(xrGetInstanceProcAddr);
+ end;
  (*
  if result then begin
   xrGetInstanceProcAddr:=xrGetProcAddress(LibOpenXR,'xrGetInstanceProcAddr');
