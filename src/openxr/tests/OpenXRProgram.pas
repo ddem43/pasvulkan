@@ -28,17 +28,20 @@ end;
 TOpenXRProgram = class
    FName:string;
    FLibName:string;
+   FxrInstanceHandle:TXrInstance;
    FLog:TStrings;
    FOptionalExtensions : TOptionalExtensions;
    FSelectedExtensions: TxrVectorStrings;
+   FSelectedLayers: TxrVectorStrings;
   protected
    procedure Log(const aString:string);
    procedure LogResult(const aResult:TXrResult);
    procedure LogCheck(const aCheckValue:boolean;const aMsg:string);
-
+   procedure InstanceInfoLog;
    procedure InitLibrary;
    procedure CreateInstance;
    procedure SelectExtensions;
+   procedure SelectLayers;
   public
    constructor Create(const AppName:string;log:TStrings);
 end;
@@ -57,9 +60,41 @@ begin
 end;
 
 procedure TOpenXRProgram.CreateInstance;
+var createInfo : TXrInstanceCreateInfo;
+    res : TXrResult;
 begin
   // Build out the extensions to enable. Some extensions are required and some are optional.
   SelectExtensions;
+  FSelectedExtensions.BuildArrays;
+
+  // not required for instance creation
+  // may change if a headset is connected ?
+  SelectLayers;
+  //FSelectedLayers.BuildArrays;
+
+  // Create the instance with desired extensions.
+  createInfo := Default(TXrInstanceCreateInfo);
+  createInfo.type_:= XR_TYPE_INSTANCE_CREATE_INFO;
+
+  createInfo.enabledApiLayerCount := FSelectedLayers.list.Count;
+  if createInfo.enabledApiLayerCount > 0 then begin
+   createInfo.enabledApiLayerNames := @FSelectedLayers.RawStringsArray[0];
+  end;
+
+  createInfo.enabledExtensionCount := FSelectedExtensions.list.count;
+  if createInfo.enabledExtensionCount > 0 then begin
+   createInfo.enabledExtensionNames :=  @FSelectedExtensions.RawStringsArray[0];
+  end;
+
+  createInfo.applicationInfo.create(TXrcharString(FName),1,TXrcharString('OpenXR sample'),1,281474976710658);
+
+  res := xrCreateInstance(@createInfo,@FxrInstanceHandle);
+  if res = XR_SUCCESS then begin
+    InstanceInfoLog;
+  end else begin
+    LogResult(res);
+  end;
+
 
 end;
 
@@ -77,6 +112,27 @@ begin
       Log('OpenXR library loaded');
       LoadOpenXRGlobalCommands;
     end;
+  end;
+end;
+
+procedure TOpenXRProgram.InstanceInfoLog;
+var res : TXrResult;
+    instProps:TXrInstanceProperties;
+    pinstProps:PXrInstanceProperties;
+begin
+  if FXrInstanceHandle <> XR_NULL_HANDLE then begin
+   instProps := Default(TXrInstanceProperties);
+   instProps.type_ :=  XR_TYPE_INSTANCE_PROPERTIES;
+   instProps.next := nil;
+   pinstProps := @instProps;
+   res := xrGetInstanceProperties(FXrInstanceHandle,pinstProps);
+   if res = XR_SUCCESS then begin
+    Log('Active Runtime '+instProps.runtimeName);
+   end else begin
+     LogResult(res);
+   end;
+  end else begin
+   Log('OpenXr instance Creation failed');
   end;
 end;
 
@@ -106,7 +162,6 @@ var extensionCount:TXrUInt32;
     extensionProperties_data:PXrExtensionProperties;
     i:integer;
     checkresult:boolean;
-
 
     // Add a specific extension to the list of extensions to be enabled, if it is supported.
     function EnableExtensionIfSupported(const extensionName:TXrCharString):boolean;
@@ -140,6 +195,9 @@ begin
     LogResult(res);
   end;
 
+  if res=XR_SUCCESS then Log(inttostr(extensionCount)+' InstanceExtensionProperties');
+
+
   // D3D11 extension is required for this sample, so check if it's supported.
   checkresult := EnableExtensionIfSupported(XR_KHR_D3D11_ENABLE_EXTENSION_NAME);
   LogCheck(checkResult,'D3D11 extension');
@@ -148,6 +206,24 @@ begin
   FoptionalExtensions.DepthExtensionSupported := EnableExtensionIfSupported(XR_KHR_COMPOSITION_LAYER_DEPTH_EXTENSION_NAME);
   FoptionalExtensions.UnboundedRefSpaceSupported := EnableExtensionIfSupported(XR_MSFT_UNBOUNDED_REFERENCE_SPACE_EXTENSION_NAME);
   FoptionalExtensions.SpatialAnchorSupported := EnableExtensionIfSupported(XR_MSFT_SPATIAL_ANCHOR_EXTENSION_NAME);
+
+end;
+
+procedure TOpenXRProgram.SelectLayers;
+var layerCount:TXrUInt32;
+    res : TXrResult;
+begin
+  // layers supported by the runtime
+  layerCount := 0;
+  res := xrEnumerateApiLayerProperties( 0 ,@layerCount, nil);
+  LogResult(res);
+
+  if res=XR_SUCCESS then Log(inttostr(layerCount)+' ApiLayerProperties');
+
+  // no layers = no headset connected ?
+  if (layerCount = 0) then exit;
+
+  //Todo..
 
 end;
 
