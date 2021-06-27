@@ -2894,6 +2894,16 @@ var Comment:ansistring;
     AllCommandClassDefinitions:TStringList;
     AllCommandClassImplementations:TStringList;
 
+function TranslateName(Name_:ansistring):ansistring;
+begin
+ //reserved
+ if Name_='function' then begin
+   result := '_'+Name_;
+ end else begin
+   result := Name_;
+ end;
+end;
+
 function TranslateType(Type_:ansistring;const Ptr:longint=0):ansistring;
 begin
  case Ptr of
@@ -4528,7 +4538,7 @@ begin
           end;
          end;
         end else if ChildChildTag.Name='param' then begin
-         ParamName:=ParseText(ChildChildTag.FindTag('name'),['']);
+         ParamName:=TranslateName(ParseText(ChildChildTag.FindTag('name'),['']));
          ParamType:=ParseText(ChildChildTag.FindTag('type'),['']);
          Text:=ParseText(ChildChildTag,['']);
          ParamPtr:=0;

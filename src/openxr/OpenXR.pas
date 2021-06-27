@@ -4860,7 +4860,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
      end;
 
-     TxrGetInstanceProcAddr=function(instance:TXrInstance;const name:PXrChar;function:PPFN_xrVoidFunction):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrGetInstanceProcAddr=function(instance:TXrInstance;const name:PXrChar;_function:PPFN_xrVoidFunction):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
      TxrEnumerateApiLayerProperties=function(propertyCapacityInput:TXrUInt32;propertyCountOutput:PXrUInt32;properties:PXrApiLayerProperties):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
@@ -5393,7 +5393,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
        constructor Create; reintroduce; overload;
        constructor Create(const AOpenXRCommands:TOpenXRCommands); reintroduce; overload;
        destructor Destroy; override;
-       function GetInstanceProcAddr(instance:TXrInstance;const name:PXrChar;function:PPFN_xrVoidFunction):TXrResult; virtual;
+       function GetInstanceProcAddr(instance:TXrInstance;const name:PXrChar;_function:PPFN_xrVoidFunction):TXrResult; virtual;
 
        function EnumerateApiLayerProperties(propertyCapacityInput:TXrUInt32;propertyCountOutput:PXrUInt32;properties:PXrApiLayerProperties):TXrResult; virtual;
 
@@ -8794,9 +8794,9 @@ begin
  inherited Destroy;
 end;
 
-function TOpenXR.GetInstanceProcAddr(instance:TXrInstance;const name:PXrChar;function:PPFN_xrVoidFunction):TXrResult;
+function TOpenXR.GetInstanceProcAddr(instance:TXrInstance;const name:PXrChar;_function:PPFN_xrVoidFunction):TXrResult;
 begin
- result:=fCommands.GetInstanceProcAddr(instance,name,function);
+ result:=fCommands.GetInstanceProcAddr(instance,name,_function);
 end;
 
 function TOpenXR.EnumerateApiLayerProperties(propertyCapacityInput:TXrUInt32;propertyCountOutput:PXrUInt32;properties:PXrApiLayerProperties):TXrResult;
