@@ -631,6 +631,10 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrNonDispatchableHandle=^TXrNonDispatchableHandle;
      TXrNonDispatchableHandle=TXrUInt64;
 
+     PPXrAtom=^PXrAtom;
+     PXrAtom=^TXrAtom;
+     TXrAtom=TXrUInt64;
+
      PPXrEnum=^PXrEnum;
      PXrEnum=^TXrEnum;
      TXrEnum=TXrInt32;
@@ -671,15 +675,15 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
      PPXrPath=^PXrPath;
      PXrPath=^TXrPath;
-     TXrPath=TXR_DEFINE_ATOM;
+     TXrPath=TXrAtom;
 
      PPXrSystemId=^PXrSystemId;
      PXrSystemId=^TXrSystemId;
-     TXrSystemId=TXR_DEFINE_ATOM;
+     TXrSystemId=TXrAtom;
 
      PPXrControllerModelKeyMSFT=^PXrControllerModelKeyMSFT;
      PXrControllerModelKeyMSFT=^TXrControllerModelKeyMSFT;
-     TXrControllerModelKeyMSFT=TXR_DEFINE_ATOM;
+     TXrControllerModelKeyMSFT=TXrAtom;
 
      PPXrInstanceCreateFlags=^PXrInstanceCreateFlags;
      PXrInstanceCreateFlags=^TXrInstanceCreateFlags;

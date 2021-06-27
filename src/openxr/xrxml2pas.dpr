@@ -2928,6 +2928,8 @@ begin
     result:='PXrDispatchableHandle';
    end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
     result:='PXrNonDispatchableHandle';
+   end else if Type_='XR_DEFINE_ATOM' then begin
+    result:='PXrAtom';
    end else if Type_='HINSTANCE' then begin
     result:='PXrHINSTANCE';
    end else if Type_='HWND' then begin
@@ -3003,6 +3005,8 @@ begin
     result:='PPXrDispatchableHandle';
    end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
     result:='PPXrNonDispatchableHandle';
+   end else if Type_='XR_DEFINE_ATOM' then begin
+    result:='PPXrAtom';
    end else if Type_='HINSTANCE' then begin
     result:='PPXrHINSTANCE';
    end else if Type_='HWND' then begin
@@ -3073,6 +3077,8 @@ begin
     result:='TXrUInt64';
    end else if Type_='size_t' then begin
     result:='TXrSize';
+   end else if Type_='XR_DEFINE_ATOM' then begin
+    result:='TXrAtom';
    end else if Type_='XR_DEFINE_HANDLE' then begin
     result:='TXrDispatchableHandle';
    end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
@@ -4386,6 +4392,7 @@ begin
      ValueItem:=@ValueItems[i];
      ENumValues.Add(ValueItem^.Name+ENumValues.NameValueSeparator+ValueItem^.ValueStr);
      if length(ValueItem^.Comment)>0 then begin
+
       ValueItem^.Comment := DeleteRepeatedSpaces(ValueItem^.Comment);
       // CRLF added in comment ?
       ValueItem^.Comment := stringreplace( ValueItem^.Comment, #13#10, '',[rfReplaceAll]);
@@ -5084,6 +5091,10 @@ begin
    OutputPAS.Add('     PPXrNonDispatchableHandle=^PXrNonDispatchableHandle;');
    OutputPAS.Add('     PXrNonDispatchableHandle=^TXrNonDispatchableHandle;');
    OutputPAS.Add('     TXrNonDispatchableHandle=TXrUInt64;');
+   OutputPAS.Add('');
+   OutputPAS.Add('     PPXrAtom=^PXrAtom;');
+   OutputPAS.Add('     PXrAtom=^TXrAtom;');
+   OutputPAS.Add('     TXrAtom=TXrUInt64;');
    OutputPAS.Add('');
    OutputPAS.Add('     PPXrEnum=^PXrEnum;');
    OutputPAS.Add('     PXrEnum=^TXrEnum;');
