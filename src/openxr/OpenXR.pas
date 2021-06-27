@@ -79,6 +79,7 @@ uses {$if defined(Windows)}
       Winapi.D3DCommon,
       Winapi.D3D11,
       Winapi.D3D12,
+      Vulkan,
      {$elseif defined(Unix)}
       BaseUnix,UnixType,dl,
      {$ifend}

@@ -4902,6 +4902,7 @@ begin
    OutputPAS.Add('      Winapi.D3DCommon,');
    OutputPAS.Add('      Winapi.D3D11,');
    OutputPAS.Add('      Winapi.D3D12,');
+   OutputPAS.Add('      Vulkan,');
    OutputPAS.Add('     {$elseif defined(Unix)}');
    OutputPAS.Add('      BaseUnix,UnixType,dl,');
    OutputPAS.Add('     {$ifend}');
