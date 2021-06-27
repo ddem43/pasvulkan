@@ -2940,6 +2940,8 @@ begin
     result:='PXrNonDispatchableHandle';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='PXrAtom';
+   end else if Type_='LARGE_INTEGER' then begin
+    result:='PLargeInteger';
    end else if Type_='IUnknown' then begin
     result:='IUnknown';
    end else if Type_='ID3D11Device' then begin

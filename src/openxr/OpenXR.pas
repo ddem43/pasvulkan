@@ -5019,11 +5019,11 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      TxrSessionInsertDebugUtilsLabelEXT=function(session:TXrSession;const labelInfo:PXrDebugUtilsLabelEXT):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
 {$ifdef Windows}
-     TxrConvertTimeToWin32PerformanceCounterKHR=function(instance:TXrInstance;time:TXrTime;performanceCounter:PLARGE_INTEGER):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrConvertTimeToWin32PerformanceCounterKHR=function(instance:TXrInstance;time:TXrTime;performanceCounter:PLargeInteger):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 {$endif}
 
 {$ifdef Windows}
-     TxrConvertWin32PerformanceCounterToTimeKHR=function(instance:TXrInstance;const performanceCounter:PLARGE_INTEGER;time:PXrTime):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrConvertWin32PerformanceCounterToTimeKHR=function(instance:TXrInstance;const performanceCounter:PLargeInteger;time:PXrTime):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 {$endif}
 
      TxrCreateVulkanInstanceKHR=function(instance:TXrInstance;const createInfo:PXrVulkanInstanceCreateInfoKHR;vulkanInstance:PVkInstance;vulkanResult:PVkResult):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
@@ -5556,11 +5556,11 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
        function SessionInsertDebugUtilsLabelEXT(session:TXrSession;const labelInfo:PXrDebugUtilsLabelEXT):TXrResult; virtual;
 
 {$ifdef Windows}
-       function ConvertTimeToWin32PerformanceCounterKHR(instance:TXrInstance;time:TXrTime;performanceCounter:PLARGE_INTEGER):TXrResult; virtual;
+       function ConvertTimeToWin32PerformanceCounterKHR(instance:TXrInstance;time:TXrTime;performanceCounter:PLargeInteger):TXrResult; virtual;
 {$endif}
 
 {$ifdef Windows}
-       function ConvertWin32PerformanceCounterToTimeKHR(instance:TXrInstance;const performanceCounter:PLARGE_INTEGER;time:PXrTime):TXrResult; virtual;
+       function ConvertWin32PerformanceCounterToTimeKHR(instance:TXrInstance;const performanceCounter:PLargeInteger;time:PXrTime):TXrResult; virtual;
 {$endif}
 
        function CreateVulkanInstanceKHR(instance:TXrInstance;const createInfo:PXrVulkanInstanceCreateInfoKHR;vulkanInstance:PVkInstance;vulkanResult:PVkResult):TXrResult; virtual;
@@ -9191,14 +9191,14 @@ begin
 end;
 
 {$ifdef Windows}
-function TOpenXR.ConvertTimeToWin32PerformanceCounterKHR(instance:TXrInstance;time:TXrTime;performanceCounter:PLARGE_INTEGER):TXrResult;
+function TOpenXR.ConvertTimeToWin32PerformanceCounterKHR(instance:TXrInstance;time:TXrTime;performanceCounter:PLargeInteger):TXrResult;
 begin
  result:=fCommands.ConvertTimeToWin32PerformanceCounterKHR(instance,time,performanceCounter);
 end;
 {$endif}
 
 {$ifdef Windows}
-function TOpenXR.ConvertWin32PerformanceCounterToTimeKHR(instance:TXrInstance;const performanceCounter:PLARGE_INTEGER;time:PXrTime):TXrResult;
+function TOpenXR.ConvertWin32PerformanceCounterToTimeKHR(instance:TXrInstance;const performanceCounter:PLargeInteger;time:PXrTime):TXrResult;
 begin
  result:=fCommands.ConvertWin32PerformanceCounterToTimeKHR(instance,performanceCounter,time);
 end;
