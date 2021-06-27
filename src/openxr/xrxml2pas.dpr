@@ -3029,6 +3029,8 @@ begin
     result:='PPXrDispatchableHandle';
    end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
     result:='PPXrNonDispatchableHandle';
+   end else if Type_='IUnknown' then begin
+    result:='PPIUnknown';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='PPXrAtom';
    end else if Type_='HINSTANCE' then begin
@@ -5165,6 +5167,8 @@ begin
    OutputPAS.Add('     PPXrHMONITOR=^PXrHMONITOR;');
    OutputPAS.Add('     PXrHMONITOR=^TXrHMONITOR;');
    OutputPAS.Add('     TXrHMONITOR=HMONITOR;');
+   OutputPAS.Add('');
+   OutputPAS.Add('     PPIUnknown=^IUnknown;');
    OutputPAS.Add('{$endif}');
    OutputPAS.Add('');
    OutputPAS.AddStrings(BaseTypes);

@@ -665,6 +665,8 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PPXrHMONITOR=^PXrHMONITOR;
      PXrHMONITOR=^TXrHMONITOR;
      TXrHMONITOR=HMONITOR;
+
+     PPIUnknown=^IUnknown;
 {$endif}
 
      PPXrBool32=^PXrBool32;
