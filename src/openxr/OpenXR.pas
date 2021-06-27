@@ -651,6 +651,8 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrEnum=^TXrEnum;
      TXrEnum=TXrInt32;
 
+     TPFN_vkGetInstanceProcAddr=TvkGetInstanceProcAddr;
+
 {$ifdef Windows}
      PPXrHINSTANCE=^PXrHINSTANCE;
      PXrHINSTANCE=^TXrHINSTANCE;
@@ -3572,6 +3574,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
      end;
 
+{$ifdef EGL}
      PPXrGraphicsBindingEGLMNDX=^PXrGraphicsBindingEGLMNDX;
      PXrGraphicsBindingEGLMNDX=^TXrGraphicsBindingEGLMNDX;
      TXrGraphicsBindingEGLMNDX=record
@@ -3591,6 +3594,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
                           const aContext:TEGLContext);
 {$endif}
      end;
+{$endif}
 
      PPXrSpatialGraphNodeSpaceCreateInfoMSFT=^PXrSpatialGraphNodeSpaceCreateInfoMSFT;
      PXrSpatialGraphNodeSpaceCreateInfoMSFT=^TXrSpatialGraphNodeSpaceCreateInfoMSFT;
@@ -3978,11 +3982,11 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       holographicSpace:PIUnknown;
-       coreWindow:PIUnknown;
+       holographicSpace:IUnknown;
+       coreWindow:IUnknown;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aHolographicSpace:PIUnknown;
-                          const aCoreWindow:PIUnknown);
+       constructor Create(const aHolographicSpace:IUnknown;
+                          const aCoreWindow:IUnknown);
 {$endif}
      end;
 
@@ -4032,6 +4036,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      end;
 {$endif}
 
+{$ifdef EGL}
      PPXrSwapchainStateSamplerOpenGLESFB=^PXrSwapchainStateSamplerOpenGLESFB;
      PXrSwapchainStateSamplerOpenGLESFB=^TXrSwapchainStateSamplerOpenGLESFB;
      TXrSwapchainStateSamplerOpenGLESFB=record
@@ -4063,6 +4068,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
                           const aBorderColor:TXrColor4f);
 {$endif}
      end;
+{$endif}
 
      PPXrSwapchainStateSamplerVulkanFB=^PXrSwapchainStateSamplerVulkanFB;
      PXrSwapchainStateSamplerVulkanFB=^TXrSwapchainStateSamplerVulkanFB;
@@ -5100,7 +5106,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
      TxrRequestDisplayRefreshRateFB=function(session:TXrSession;displayRefreshRate:TXrFloat):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
-     TxrCreateSpatialAnchorFromPerceptionAnchorMSFT=function(session:TXrSession;perceptionAnchor:PIUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
+     TxrCreateSpatialAnchorFromPerceptionAnchorMSFT=function(session:TXrSession;perceptionAnchor:IUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
      TxrTryGetPerceptionAnchorFromSpatialAnchorMSFT=function(session:TXrSession;anchor:TXrSpatialAnchorMSFT;perceptionAnchor:PPIUnknown):TXrResult; {$ifdef Windows}stdcall;{$else}{$ifdef Android}{$ifdef cpuarm}hardfloat;{$else}cdecl;{$endif}{$else}cdecl;{$endif}{$endif}
 
@@ -5633,7 +5639,7 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 
        function RequestDisplayRefreshRateFB(session:TXrSession;displayRefreshRate:TXrFloat):TXrResult; virtual;
 
-       function CreateSpatialAnchorFromPerceptionAnchorMSFT(session:TXrSession;perceptionAnchor:PIUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult; virtual;
+       function CreateSpatialAnchorFromPerceptionAnchorMSFT(session:TXrSession;perceptionAnchor:IUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult; virtual;
 
        function TryGetPerceptionAnchorFromSpatialAnchorMSFT(session:TXrSession;anchor:TXrSpatialAnchorMSFT;perceptionAnchor:PPIUnknown):TXrResult; virtual;
 
@@ -8004,6 +8010,7 @@ begin
  poseInAnchorSpace:=aPoseInAnchorSpace;
 end;
 
+{$ifdef EGL}
 constructor TXrGraphicsBindingEGLMNDX.Create(const aGetProcAddress:TPFNEGLGETPROCADDRESSPROC;
                                              const aDisplay:TEGLDisplay;
                                              const aConfig:TEGLConfig;
@@ -8016,6 +8023,7 @@ begin
  config:=aConfig;
  context:=aContext;
 end;
+{$endif}
 
 constructor TXrSpatialGraphNodeSpaceCreateInfoMSFT.Create(const aNodeType:TXrSpatialGraphNodeTypeMSFT;
                                                           const aNodeId:array of TXrUInt8;
@@ -8242,8 +8250,8 @@ begin
  viewConfigurationType:=aViewConfigurationType;
 end;
 
-constructor TXrHolographicWindowAttachmentMSFT.Create(const aHolographicSpace:PIUnknown;
-                                                      const aCoreWindow:PIUnknown);
+constructor TXrHolographicWindowAttachmentMSFT.Create(const aHolographicSpace:IUnknown;
+                                                      const aCoreWindow:IUnknown);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
@@ -8276,6 +8284,7 @@ begin
 end;
 {$endif}
 
+{$ifdef EGL}
 constructor TXrSwapchainStateSamplerOpenGLESFB.Create(const aMinFilter:TEGLenum;
                                                       const aMagFilter:TEGLenum;
                                                       const aWrapModeS:TEGLenum;
@@ -8300,6 +8309,7 @@ begin
  maxAnisotropy:=aMaxAnisotropy;
  borderColor:=aBorderColor;
 end;
+{$endif}
 
 constructor TXrSwapchainStateSamplerVulkanFB.Create(const aMinFilter:TVkFilter;
                                                     const aMagFilter:TVkFilter;
@@ -9385,7 +9395,7 @@ begin
  result:=fCommands.RequestDisplayRefreshRateFB(session,displayRefreshRate);
 end;
 
-function TOpenXR.CreateSpatialAnchorFromPerceptionAnchorMSFT(session:TXrSession;perceptionAnchor:PIUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult;
+function TOpenXR.CreateSpatialAnchorFromPerceptionAnchorMSFT(session:TXrSession;perceptionAnchor:IUnknown;anchor:PXrSpatialAnchorMSFT):TXrResult;
 begin
  result:=fCommands.CreateSpatialAnchorFromPerceptionAnchorMSFT(session,perceptionAnchor,anchor);
 end;

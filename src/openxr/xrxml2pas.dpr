@@ -2940,6 +2940,8 @@ begin
     result:='PXrNonDispatchableHandle';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='PXrAtom';
+   end else if Type_='IUnknown' then begin
+    result:='IUnknown';
    end else if Type_='ID3D11Device' then begin
     result:='ID3D11Device';
    end else if Type_='ID3D12Device' then begin
@@ -3803,6 +3805,8 @@ begin
          TypeDefinition^.Define:='MoltenXR';
         end else if (pos('ANDROID',Name)>0) or (pos('Android',Name)>0) then begin
          TypeDefinition^.Define:='Android';
+        end else if (pos('GraphicsBindingEGL',Name)>0) or (pos('OpenGLESFB',Name)>0)  then begin
+         TypeDefinition^.Define:='EGL';
         end;
         SetLength(TypeDefinition^.Members,ChildTag.Items.Count);
         TypeDefinition^.CountMembers:=0;
@@ -5136,6 +5140,11 @@ begin
    OutputPAS.Add('     PXrEnum=^TXrEnum;');
    OutputPAS.Add('     TXrEnum=TXrInt32;');
    OutputPAS.Add('');
+   //not sure about this one...
+   OutputPAS.Add('     TPFN_vkGetInstanceProcAddr=TvkGetInstanceProcAddr;');
+   OutputPAS.Add('');
+
+
    OutputPAS.Add('{$ifdef Windows}');
    OutputPAS.Add('     PPXrHINSTANCE=^PXrHINSTANCE;');
    OutputPAS.Add('     PXrHINSTANCE=^TXrHINSTANCE;');
