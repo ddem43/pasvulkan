@@ -5357,16 +5357,16 @@ begin
     if length(s2)>0 then begin
      OutputPAS.Add('{$ifdef '+s2+'}');
     end;
-    OutputPAS.Add('  @InstanceCommands.'+copy(s,3,length(s)-2)+':=xrVoidFunctionToPointer(xrGetInstanceProcAddr(Instance,PXrChar('''+s+''')));');
+    OutputPAS.Add('  xrGetInstanceProcAddr(Instance,PXrChar('''+s+'''),@InstanceCommands.'+copy(s,3,length(s)-2)+');');
     if length(s2)>0 then begin
      OutputPAS.Add('{$endif}');
     end;
    end;
+   OutputPAS.Add('  if not assigned(InstanceCommands.EnumerateApiLayerProperties) then begin');
+   OutputPAS.Add('   InstanceCommands.EnumerateApiLayerProperties:=addr(xrEnumerateApiLayerProperties);');
+   OutputPAS.Add('  end;');
    OutputPAS.Add('  if not assigned(InstanceCommands.EnumerateInstanceExtensionProperties) then begin');
    OutputPAS.Add('   InstanceCommands.EnumerateInstanceExtensionProperties:=addr(xrEnumerateInstanceExtensionProperties);');
-   OutputPAS.Add('  end;');
-   OutputPAS.Add('  if not assigned(InstanceCommands.EnumerateInstanceLayerProperties) then begin');
-   OutputPAS.Add('   InstanceCommands.EnumerateInstanceLayerProperties:=addr(xrEnumerateInstanceLayerProperties);');
    OutputPAS.Add('  end;');
    OutputPAS.Add('  if not assigned(InstanceCommands.CreateInstance) then begin');
    OutputPAS.Add('   InstanceCommands.CreateInstance:=addr(xrCreateInstance);');
