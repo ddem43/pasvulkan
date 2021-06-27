@@ -3079,6 +3079,10 @@ begin
     result:='TXrSize';
    end else if Type_='XR_DEFINE_ATOM' then begin
     result:='TXrAtom';
+   end else if Type_='HDC' then begin
+    result:='TXrHDC';
+   end else if Type_='HGLRC' then begin
+    result:='TXrHGLRC';
    end else if Type_='XR_DEFINE_HANDLE' then begin
     result:='TXrDispatchableHandle';
    end else if Type_='XR_DEFINE_NON_DISPATCHABLE_HANDLE' then begin
@@ -5095,6 +5099,14 @@ begin
    OutputPAS.Add('     PPXrAtom=^PXrAtom;');
    OutputPAS.Add('     PXrAtom=^TXrAtom;');
    OutputPAS.Add('     TXrAtom=TXrUInt64;');
+   OutputPAS.Add('');
+   OutputPAS.Add('     PPXrHDC=^PXrHDC;');
+   OutputPAS.Add('     PXrHDC=^TXrHDC;');
+   OutputPAS.Add('     TXrHDC=HDC;');
+   OutputPAS.Add('');
+   OutputPAS.Add('     PPXrHGLRC=^PXrHGLRC;');
+   OutputPAS.Add('     PXrHGLRC=^TXrHGLRC;');
+   OutputPAS.Add('     TXrHGLRC=HGLRC;');
    OutputPAS.Add('');
    OutputPAS.Add('     PPXrEnum=^PXrEnum;');
    OutputPAS.Add('     PXrEnum=^TXrEnum;');

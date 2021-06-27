@@ -635,6 +635,14 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
      PXrAtom=^TXrAtom;
      TXrAtom=TXrUInt64;
 
+     PPXrHDC=^PXrHDC;
+     PXrHDC=^TXrHDC;
+     TXrHDC=HDC;
+
+     PPXrHGLRC=^PXrHGLRC;
+     PXrHGLRC=^TXrHGLRC;
+     TXrHGLRC=HGLRC;
+
      PPXrEnum=^PXrEnum;
      PXrEnum=^TXrEnum;
      TXrEnum=TXrInt32;
@@ -1862,11 +1870,11 @@ type PPXrDispatchableHandle=^PXrDispatchableHandle;
 {$endif}
        type_:TXrStructureType;
        next:PXrVoid;
-       hDC:THDC;
-       hGLRC:THGLRC;
+       hDC:TXrHDC;
+       hGLRC:TXrHGLRC;
 {$ifdef HAS_ADVANCED_RECORDS}
-       constructor Create(const aHDC:THDC;
-                          const aHGLRC:THGLRC);
+       constructor Create(const aHDC:TXrHDC;
+                          const aHGLRC:TXrHGLRC);
 {$endif}
      end;
 
@@ -6949,8 +6957,8 @@ begin
  trackingProperties:=aTrackingProperties;
 end;
 
-constructor TXrGraphicsBindingOpenGLWin32KHR.Create(const aHDC:THDC;
-                                                    const aHGLRC:THGLRC);
+constructor TXrGraphicsBindingOpenGLWin32KHR.Create(const aHDC:TXrHDC;
+                                                    const aHGLRC:TXrHGLRC);
 begin
  type_:=TXrStructureType(TXrInt32(0));
  next:=nil;
