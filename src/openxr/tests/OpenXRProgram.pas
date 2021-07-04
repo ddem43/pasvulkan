@@ -86,7 +86,10 @@ begin
    createInfo.enabledExtensionNames :=  @FSelectedExtensions.RawStringsArray[0];
   end;
 
-  createInfo.applicationInfo.create(TXrcharString(FName),1,TXrcharString('OpenXR sample'),1,281474976710658);
+
+  // XR_MAKE_VERSION(1,0,2) = $ 0001 0000 0000 0002 = 281474976710658
+  var api_version:TXrVersion := XR_MAKE_VERSION(1,0,10);
+  createInfo.applicationInfo.create(TXrcharString(FName),1,TXrcharString('OpenXR sample'),1,api_version);
 
   res := xrCreateInstance(@createInfo,@FxrInstanceHandle);
   if res = XR_SUCCESS then begin

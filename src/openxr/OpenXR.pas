@@ -5957,7 +5957,7 @@ var LibOpenXR:pointer=nil;
     xrGetAudioInputDeviceGuidOculus:TxrGetAudioInputDeviceGuidOculus=nil;
 
 
-function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
+function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):TXrVersion; {$ifdef CAN_INLINE}inline;{$endif}
 function XR_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
 function XR_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
 function XR_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
@@ -5974,24 +5974,24 @@ function LoadOpenXRInstanceCommands(const GetInstanceProcAddr:TxrGetInstanceProc
 
 implementation
 
-function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
+function XR_MAKE_VERSION(const VersionMajor,VersionMinor,VersionPatch:longint):TXrVersion; {$ifdef CAN_INLINE}inline;{$endif}
 begin
- result:=(VersionMajor shl 22) or (VersionMinor shl 12) or (VersionPatch shl 0);
+ result:=(int64(VersionMajor) shl 48) or (VersionMinor shl 32) or (VersionPatch shl 0);
 end;
 
 function XR_VERSION_MAJOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
 begin
- result:=Version shr 22;
+ result:=int64(Version) shr 48;
 end;
 
 function XR_VERSION_MINOR(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
 begin
- result:=(Version shr 12) and $3ff;
+ result:=(Version shr 32) and $ffff;
 end;
 
 function XR_VERSION_PATCH(const Version:longint):longint; {$ifdef CAN_INLINE}inline;{$endif}
 begin
- result:=(Version shr 0) and $fff;
+ result:=(Version shr 0) and $ffffffff;
 end;
 
 function xrLoadLibrary(const LibraryName:string):pointer; {$ifdef CAN_INLINE}inline;{$endif}
