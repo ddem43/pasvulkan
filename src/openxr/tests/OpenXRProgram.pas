@@ -35,11 +35,11 @@ TOpenXRProgram = class
    //input action to place a hologram
    FPlaceActionHandle:TXrAction;
    //input action getting the left and right hand poses
-   FPoseActionHandle:TXRAction;
+   FPoseActionHandle:TXrAction;
    //output action for vibrating the left and right controller
-   FVibrateActionHandle:TXRAction;
+   FVibrateActionHandle:TXrAction;
    //input action to exit session
-   FExitActionHandle:TXRAction;
+   FExitActionHandle:TXrAction;
 
    const LeftSide = 0;
          RightSide = 1;
@@ -103,6 +103,10 @@ var actionSetInfo : TXrActionSetCreateInfo;
     actionInfo    : TXrActionCreateInfo;
     pactionInfo   : PXrActionCreateInfo;
     res : TXrResult;
+
+    Bindings : array of TXrActionSuggestedBinding;
+    suggestedBindings : TXrInteractionProfileSuggestedBinding;
+
 begin
   // Create an action set.
   actionSetInfo := TXrActionSetCreateInfo.Create('place_hologram_action_set','Placement',0);
@@ -144,6 +148,22 @@ begin
     pactionInfo := @actioninfo;
     res := xrCreateAction(FActionSetHandle,pactionInfo,@FExitActionHandle);
     LogResult('CreateAction (exit session)',res);
+
+  // Setup suggest bindings for simple controller.
+  setLength(Bindings,0);
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FPlaceActionHandle , GetXrPath('/user/hand/right/input/select/click')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FPlaceActionHandle , GetXrPath('/user/hand/left/input/select/click')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FPoseActionHandle , GetXrPath('/user/hand/right/input/grip/pose')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FPoseActionHandle , GetXrPath('/user/hand/left/input/grip/pose')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FVibrateActionHandle , GetXrPath('/user/hand/right/output/haptic')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FVibrateActionHandle , GetXrPath('/user/hand/left/output/haptic')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FExitActionHandle , GetXrPath('/user/hand/right/input/menu/click')) ];
+  Bindings := Bindings+ [ TXrActionSuggestedBinding.Create(FExitActionHandle , GetXrPath('/user/hand/left/input/menu/click')) ];
+
+  suggestedBindings :=  TXrInteractionProfileSuggestedBinding.Create( GetXrPath('/interaction_profiles/khr/simple_controller'), 8, @Bindings[0] );
+  suggestedBindings.type_ :=  XR_TYPE_INTERACTION_PROFILE_SUGGESTED_BINDING;
+  res := xrSuggestInteractionProfileBindings(FXrInstanceHandle,@suggestedBindings);
+  LogResult('SuggestInteractionProfileBindings',res);
 
 end;
 
