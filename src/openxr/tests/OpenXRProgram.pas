@@ -31,7 +31,15 @@ TOpenXRProgram = class
 
    FxrInstanceHandle:TXrInstance;
    FActionSetHandle:TXrActionSet;
+   FsubactionPaths: array[0..1] of TXrPath;
+   //input action to place a hologram
+   FPlaceActionHandle:TXrAction;
 
+
+   const LeftSide = 0;
+         RightSide = 1;
+
+   var
    FLog:TStrings;
    FOptionalExtensions : TOptionalExtensions;
    FSelectedExtensions: TxrVectorStrings;
@@ -40,6 +48,7 @@ TOpenXRProgram = class
    procedure Log(const aString:string);
    procedure LogResult(const aTitle:string;const aResult:TXrResult);
    procedure LogCheck(const aCheckValue:boolean;const aMsg:string);
+   function GetXrPath(const apString:PXrChar):TXrPath;
    procedure InstanceInfoLog;
    procedure InitLibrary;
    procedure CreateInstance;
@@ -49,6 +58,10 @@ TOpenXRProgram = class
   public
    constructor Create(const AppName:string;log:TStrings);
 end;
+
+// this const need to be moved to xr.pas
+const XR_NULL_PATH=0;
+
 
 implementation
 
@@ -74,6 +87,8 @@ end;
 procedure TOpenXRProgram.CreateActions;
 var actionSetInfo : TXrActionSetCreateInfo;
     pactionSetInfo: PXrActionSetCreateInfo;
+    actionInfo    : TXrActionCreateInfo;
+    pactionInfo   : PXrActionCreateInfo;
     res : TXrResult;
 begin
   // Create an action set.
@@ -82,6 +97,20 @@ begin
   pactionSetInfo := @actionSetInfo;
   res := xrCreateActionSet(FxrInstanceHandle,pactionSetInfo,@FActionSetHandle);
   LogResult('CreateActionSet',res);
+
+  // Create actions.
+
+    // Enable subaction path filtering for left or right hand.
+    FsubactionPaths[LeftSide] := GetXrPath('/user/hand/left');
+    FsubactionPaths[RightSide] := GetXrPath('/user/hand/right');
+
+    // Create an input action to place a hologram.
+    actionInfo := TXrActionCreateInfo.Create('place_hologram',XR_ACTION_TYPE_BOOLEAN_INPUT,2,@FsubactionPaths[0],'Place Hologram');
+    actionInfo.type_:= XR_TYPE_ACTION_CREATE_INFO;
+    pactionInfo := @actioninfo;
+    res := xrCreateAction(FActionSetHandle,pactionInfo,@FPlaceActionHandle);
+    LogResult('CreateAction (place hologram)',res);
+
 end;
 
 procedure TOpenXRProgram.CreateInstance;
@@ -124,6 +153,16 @@ begin
   end;
 
 
+end;
+
+function TOpenXRProgram.GetXrPath(const apString: PXrChar): TXrPath;
+var res : TXrResult;
+begin
+  result := XR_NULL_PATH;
+  if FXrInstanceHandle <> XR_NULL_HANDLE then begin
+    res := xr.StringToPath(FXrInstanceHandle,apString,@result);
+    LogResult('StringToPath',res);
+  end;
 end;
 
 procedure TOpenXRProgram.InitLibrary;
