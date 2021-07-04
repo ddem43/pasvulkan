@@ -34,7 +34,12 @@ TOpenXRProgram = class
    FsubactionPaths: array[0..1] of TXrPath;
    //input action to place a hologram
    FPlaceActionHandle:TXrAction;
-
+   //input action getting the left and right hand poses
+   FPoseActionHandle:TXRAction;
+   //output action for vibrating the left and right controller
+   FVibrateActionHandle:TXRAction;
+   //input action to exit session
+   FExitActionHandle:TXRAction;
 
    const LeftSide = 0;
          RightSide = 1;
@@ -72,6 +77,14 @@ begin
   FName := AppName;
   FxrInstanceHandle := XR_NULL_HANDLE;
   FActionSetHandle := XR_NULL_HANDLE;
+  FsubactionPaths[0] := XR_NULL_PATH;
+  FsubactionPaths[1] := XR_NULL_PATH;
+  FPlaceActionHandle := XR_NULL_HANDLE;
+  FPoseActionHandle := XR_NULL_HANDLE;
+  FVibrateActionHandle := XR_NULL_HANDLE;
+  FExitActionHandle := XR_NULL_HANDLE;
+
+
   FLog := log;
   InitLibrary;
 
@@ -110,6 +123,27 @@ begin
     pactionInfo := @actioninfo;
     res := xrCreateAction(FActionSetHandle,pactionInfo,@FPlaceActionHandle);
     LogResult('CreateAction (place hologram)',res);
+
+    // Create an input action getting the left and right hand poses.
+    actionInfo := TXrActionCreateInfo.Create('hand_pose',XR_ACTION_TYPE_POSE_INPUT,2,@FsubactionPaths[0],'Hand Pose');
+    actionInfo.type_:= XR_TYPE_ACTION_CREATE_INFO;
+    pactionInfo := @actioninfo;
+    res := xrCreateAction(FActionSetHandle,pactionInfo,@FPoseActionHandle);
+    LogResult('CreateAction (get hand poses)',res);
+
+    // Create an output action for vibrating the left and right controller.
+    actionInfo := TXrActionCreateInfo.Create('vibrate',XR_ACTION_TYPE_VIBRATION_OUTPUT,2,@FsubactionPaths[0],'Vibrate');
+    actionInfo.type_:= XR_TYPE_ACTION_CREATE_INFO;
+    pactionInfo := @actioninfo;
+    res := xrCreateAction(FActionSetHandle,pactionInfo,@FVibrateActionHandle);
+    LogResult('CreateAction (vibration)',res);
+
+    // Create an input action to exit session
+    actionInfo := TXrActionCreateInfo.Create('exit_session',XR_ACTION_TYPE_BOOLEAN_INPUT,2,@FsubactionPaths[0],'Exit Session');
+    actionInfo.type_:= XR_TYPE_ACTION_CREATE_INFO;
+    pactionInfo := @actioninfo;
+    res := xrCreateAction(FActionSetHandle,pactionInfo,@FExitActionHandle);
+    LogResult('CreateAction (exit session)',res);
 
 end;
 
