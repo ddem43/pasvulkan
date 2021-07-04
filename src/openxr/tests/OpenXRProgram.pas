@@ -28,18 +28,22 @@ end;
 TOpenXRProgram = class
    FName:string;
    FLibName:string;
+
    FxrInstanceHandle:TXrInstance;
+   FActionSetHandle:TXrActionSet;
+
    FLog:TStrings;
    FOptionalExtensions : TOptionalExtensions;
    FSelectedExtensions: TxrVectorStrings;
    FSelectedLayers: TxrVectorStrings;
   protected
    procedure Log(const aString:string);
-   procedure LogResult(const aResult:TXrResult);
+   procedure LogResult(const aTitle:string;const aResult:TXrResult);
    procedure LogCheck(const aCheckValue:boolean;const aMsg:string);
    procedure InstanceInfoLog;
    procedure InitLibrary;
    procedure CreateInstance;
+   procedure CreateActions;
    procedure SelectExtensions;
    procedure SelectLayers;
   public
@@ -53,10 +57,31 @@ implementation
 constructor TOpenXRProgram.Create(const AppName: string;log:TStrings);
 begin
   FName := AppName;
+  FxrInstanceHandle := XR_NULL_HANDLE;
+  FActionSetHandle := XR_NULL_HANDLE;
   FLog := log;
   InitLibrary;
-  CreateInstance;
 
+  CreateInstance;
+  if (FxrInstanceHandle = XR_NULL_HANDLE) then exit;
+
+  CreateActions;
+
+
+
+end;
+
+procedure TOpenXRProgram.CreateActions;
+var actionSetInfo : TXrActionSetCreateInfo;
+    pactionSetInfo: PXrActionSetCreateInfo;
+    res : TXrResult;
+begin
+  // Create an action set.
+  actionSetInfo := TXrActionSetCreateInfo.Create('place_hologram_action_set','Placement',0);
+  actionSetInfo.type_:= XR_TYPE_ACTION_SET_CREATE_INFO;
+  pactionSetInfo := @actionSetInfo;
+  res := xrCreateActionSet(FxrInstanceHandle,pactionSetInfo,@FActionSetHandle);
+  LogResult('CreateActionSet',res);
 end;
 
 procedure TOpenXRProgram.CreateInstance;
@@ -88,14 +113,14 @@ begin
 
 
   // XR_MAKE_VERSION(1,0,2) = $ 0001 0000 0000 0002 = 281474976710658
-  var api_version:TXrVersion := XR_MAKE_VERSION(1,0,10);
+  var api_version:TXrVersion := XR_MAKE_VERSION(1,0,17);
   createInfo.applicationInfo.create(TXrcharString(FName),1,TXrcharString('OpenXR sample'),1,api_version);
 
   res := xrCreateInstance(@createInfo,@FxrInstanceHandle);
   if res = XR_SUCCESS then begin
     InstanceInfoLog;
   end else begin
-    LogResult(res);
+    LogResult('CreateInstance',res);
   end;
 
 
@@ -132,7 +157,7 @@ begin
    if res = XR_SUCCESS then begin
     Log('Active Runtime '+instProps.runtimeName);
    end else begin
-     LogResult(res);
+     LogResult('GetInstanceProperties',res);
    end;
   end else begin
    Log('OpenXr instance Creation failed');
@@ -151,10 +176,10 @@ begin
   end;
 end;
 
-procedure TOpenXRProgram.LogResult(const aResult: TXrResult);
+procedure TOpenXRProgram.LogResult(const aTitle:string; const aResult: TXrResult);
 begin
   if aResult <> XR_SUCCESS then begin
-    Log('error '+inttostr(integer(aResult)));
+    Log(aTitle+' : error '+inttostr(integer(aResult)));
   end;
 end;
 
@@ -186,7 +211,7 @@ begin
   // Fetch the list of extensions supported by the runtime.
   extensionCount := 0;
   res := xrEnumerateInstanceExtensionProperties(nil, 0 ,@extensionCount, nil);
-  LogResult(res);
+  LogResult('EnumerateInstanceExtensionProperties (count only) ',res);
 
   if extensionCount>0 then begin
     setlength( extensionProperties, extensionCount );
@@ -195,7 +220,7 @@ begin
     end;
     extensionProperties_data := @extensionProperties[0];
     res := xrEnumerateInstanceExtensionProperties(nil, extensionCount ,@extensionCount, extensionProperties_data);
-    LogResult(res);
+    LogResult('EnumerateInstanceExtensionProperties',res);
   end;
 
   if res=XR_SUCCESS then Log(inttostr(extensionCount)+' InstanceExtensionProperties');
@@ -219,14 +244,12 @@ begin
   // layers supported by the runtime
   layerCount := 0;
   res := xrEnumerateApiLayerProperties( 0 ,@layerCount, nil);
-  LogResult(res);
+  LogResult('EnumerateApiLayerProperties (count only)',res);
 
   if res=XR_SUCCESS then Log(inttostr(layerCount)+' ApiLayerProperties');
 
-  // no layers = no headset connected ?
+  // no api layers found
   if (layerCount = 0) then exit;
-
-  //Todo..
 
 end;
 
