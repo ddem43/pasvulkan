@@ -30,4 +30,10 @@ object Form1: TForm1
     Height = 185
     TabOrder = 1
   end
+  object Timer1: TTimer
+    Interval = 2000
+    OnTimer = Timer1Timer
+    Left = 376
+    Top = 8
+  end
 end

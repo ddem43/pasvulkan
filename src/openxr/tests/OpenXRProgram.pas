@@ -43,12 +43,14 @@ TOpenXRProgram = class
 
    const LeftSide = 0;
          RightSide = 1;
+         FformFactor:TXrFormFactor = XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY;
 
    var
    FLog:TStrings;
    FOptionalExtensions : TOptionalExtensions;
    FSelectedExtensions: TxrVectorStrings;
    FSelectedLayers: TxrVectorStrings;
+   FsystemId: UInt64;
   protected
    procedure Log(const aString:string);
    procedure LogResult(const aTitle:string;const aResult:TXrResult);
@@ -60,17 +62,30 @@ TOpenXRProgram = class
    procedure CreateActions;
    procedure SelectExtensions;
    procedure SelectLayers;
+
+   // check headset
+   procedure InstanceSystemInfo;
+
   public
    constructor Create(const AppName:string;log:TStrings);
+   procedure InitializeSystem;
+   procedure ContinueWithHeadset;
+   property systemID: UInt64 read FsystemId;
+
 end;
 
-// this const need to be moved to xr.pas
+// these consts need to be moved to xr.pas
 const XR_NULL_PATH=0;
-
+      XR_NULL_SYSTEM_ID=0;
 
 implementation
 
 { TOpenXRProgram }
+
+procedure TOpenXRProgram.ContinueWithHeadset;
+begin
+  Log('continue with headset...');
+end;
 
 constructor TOpenXRProgram.Create(const AppName: string;log:TStrings);
 begin
@@ -84,6 +99,7 @@ begin
   FVibrateActionHandle := XR_NULL_HANDLE;
   FExitActionHandle := XR_NULL_HANDLE;
 
+  FSystemId := XR_NULL_SYSTEM_ID;
 
   FLog := log;
   InitLibrary;
@@ -92,8 +108,6 @@ begin
   if (FxrInstanceHandle = XR_NULL_HANDLE) then exit;
 
   CreateActions;
-
-
 
 end;
 
@@ -219,6 +233,19 @@ begin
   end;
 end;
 
+procedure TOpenXRProgram.InitializeSystem;
+begin
+  if (FxrInstanceHandle <> XR_NULL_HANDLE) then begin
+    if (FsystemId=XR_NULL_SYSTEM_ID) then begin
+
+      Log('try system initialisation...');
+
+      InstanceSystemInfo;
+
+    end;
+  end;
+end;
+
 procedure TOpenXRProgram.InitLibrary;
 var res:boolean;
 begin
@@ -255,6 +282,31 @@ begin
   end else begin
    Log('OpenXr instance Creation failed');
   end;
+end;
+
+procedure TOpenXRProgram.InstanceSystemInfo;
+var systemInfo:TXrSystemGetInfo;
+    res : TXrResult;
+begin
+  systemInfo.Type_ := XR_TYPE_SYSTEM_GET_INFO;
+  systemInfo.next := nil;
+  systemInfo.formFactor := FformFactor; //XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY
+
+  res := xrGetSystem(FXrInstanceHandle,@systemInfo,@FsystemID);
+  case res of
+    XR_ERROR_FORM_FACTOR_UNAVAILABLE : begin
+       Log('HeadSet not connected, trying again in 2s');
+    end;
+    XR_SUCCESS : begin
+     log('HeadSet connected, ID = '+inttostr(FsystemID));
+     //break;
+    end;
+    else begin
+      LogResult('GetSystem',res);
+    end;
+  end;
+
+
 end;
 
 procedure TOpenXRProgram.Log(const aString: string);
