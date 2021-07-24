@@ -25,6 +25,11 @@ TOptionalExtensions = record
    class operator Initialize (out Dest: ToptionalExtensions);
 end;
 
+TNearFar = record
+  _Near:single;
+  _Far:single;
+end;
+
 TOpenXRProgram = class
    FName:string;
    FLibName:string;
@@ -32,6 +37,8 @@ TOpenXRProgram = class
    FxrInstanceHandle:TXrInstance;
    FActionSetHandle:TXrActionSet;
    FsubactionPaths: array[0..1] of TXrPath;
+
+
    //input action to place a hologram
    FPlaceActionHandle:TXrAction;
    //input action getting the left and right hand poses
@@ -41,16 +48,24 @@ TOpenXRProgram = class
    //input action to exit session
    FExitActionHandle:TXrAction;
 
+   FsystemId: UInt64;
+   FenvironmentBlendMode: TXrEnvironmentBlendMode;
+   FnearFar : TNearFar;
+
    const LeftSide = 0;
          RightSide = 1;
          FformFactor:TXrFormFactor = XR_FORM_FACTOR_HEAD_MOUNTED_DISPLAY;
+         FprimaryViewConfigType:TXrViewConfigurationType = XR_VIEW_CONFIGURATION_TYPE_PRIMARY_STEREO;
+         FstereoViewCount:UInt32 = 2;// PRIMARY_STEREO view configuration always has 2 views
 
    var
    FLog:TStrings;
    FOptionalExtensions : TOptionalExtensions;
    FSelectedExtensions: TxrVectorStrings;
    FSelectedLayers: TxrVectorStrings;
-   FsystemId: UInt64;
+
+
+   FDoingInit:boolean;
   protected
    procedure Log(const aString:string);
    procedure LogResult(const aTitle:string;const aResult:TXrResult);
@@ -70,6 +85,8 @@ TOpenXRProgram = class
    constructor Create(const AppName:string;log:TStrings);
    procedure InitializeSystem;
    procedure ContinueWithHeadset;
+
+   property DoingInit:boolean read FDoingInit;
    property systemID: UInt64 read FsystemId;
 
 end;
@@ -83,8 +100,44 @@ implementation
 { TOpenXRProgram }
 
 procedure TOpenXRProgram.ContinueWithHeadset;
+var res : TXrResult;
+    count:UInt32;
+    environmentBlendModes: array of TXrEnvironmentBlendMode;
+    environmentBlendModes_data : PXrEnvironmentBlendMode;
 begin
-  Log('continue with headset...');
+  // code here is run when FsystemID is ok
+  if FsystemId <> XR_NULL_SYSTEM_ID then begin
+      // Choose an environment blend mode.
+
+      // Query the list of supported environment blend modes for the current system
+      res := xrEnumerateEnvironmentBlendModes(FXrInstanceHandle,FsystemId,FprimaryViewConfigType,0,@count,nil);
+      case res of
+        XR_SUCCESS:begin
+          if count>0 then begin
+            setlength( environmentBlendModes, count );
+            environmentBlendModes_data := @environmentBlendModes[0];
+            res := xrEnumerateEnvironmentBlendModes(FXrInstanceHandle,FsystemId,FprimaryViewConfigType,count,@count,environmentBlendModes_data);
+             case res of
+               XR_SUCCESS:begin
+                  // This sample supports all modes, pick the system's preferred one.
+                  FenvironmentBlendMode := environmentBlendModes[0];
+               end;
+               else begin
+                 LogResult('EnumerateEnvironmentBlendModes (get data)',res);
+               end;
+             end;
+          end;
+        end;
+        else begin
+          LogResult('EnumerateEnvironmentBlendModes (query list)', res);
+        end;
+      end;
+
+      // Choose a reasonable depth range can help improve hologram visual quality.
+      // Use reversed Z (near > far) for more uniformed Z resolution.
+      FnearFar._Near := 20.0;
+      FnearFar._Far  := 0.1;
+  end;
 end;
 
 constructor TOpenXRProgram.Create(const AppName: string;log:TStrings);
@@ -239,8 +292,12 @@ begin
     if (FsystemId=XR_NULL_SYSTEM_ID) then begin
 
       Log('try system initialisation...');
-
-      InstanceSystemInfo;
+      FDoingInit := true;
+      try
+        InstanceSystemInfo;
+      finally
+        FDoingInit := false;
+      end;
 
     end;
   end;

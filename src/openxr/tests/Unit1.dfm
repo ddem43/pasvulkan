@@ -28,9 +28,11 @@ object Form1: TForm1
     Top = 56
     Width = 521
     Height = 185
+    ScrollBars = ssVertical
     TabOrder = 1
   end
   object Timer1: TTimer
+    Enabled = False
     Interval = 2000
     OnTimer = Timer1Timer
     Left = 376

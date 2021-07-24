@@ -38,6 +38,7 @@ begin
    // we should call LoadOpenXRLibrary, this is done in TOpenXRProgram
    application.ProcessMessages;
    CreateProgram;
+   Timer1.Enabled := true;
   end;
 end;
 
@@ -56,9 +57,10 @@ end;
 
 procedure TForm1.Timer1Timer(Sender: TObject);
 begin
-  if assigned(FProgram) then begin
+  if assigned(FProgram) and (not FProgram.DoingInit) then begin
     FProgram.InitializeSystem;
     if FProgram.systemID <> XR_NULL_SYSTEM_ID then begin
+      Timer1.Enabled := false;
       FProgram.ContinueWithHeadset;
     end;
   end;
